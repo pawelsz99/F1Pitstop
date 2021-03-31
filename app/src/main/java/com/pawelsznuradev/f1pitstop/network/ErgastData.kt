@@ -4,6 +4,10 @@ import android.util.Log
 import com.google.gson.annotations.SerializedName
 import com.squareup.moshi.Json
 
+data class MRData(
+    val MRData: MRDataRaces
+)
+
 data class MRDataRaces(
     val xmlns: String,
     val series: String,
@@ -16,9 +20,9 @@ data class MRDataRaces(
         Log.e("MRDataRaces init", xmlns)
     }
 
-    override fun toString(): String {
-        return "$xmlns / $series / $limit / $offset / $total / $RaceTable / "
-    }
+//    override fun toString(): String {
+//        return "$xmlns / $series / $limit / $offset / $total / $RaceTable / "
+//    }
 }
 
 

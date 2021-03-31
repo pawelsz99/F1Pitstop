@@ -43,7 +43,7 @@ val retrofit = Retrofit.Builder()
 
 interface ErgastApiService {
     @GET("{season}/races.json")
-    fun getRaces(@Path("season") season: String): Call<MRDataRaces>
+    fun getRaces(@Path("season") season: String): Call<MRData>
 }
 
 object ErgastApi {
