@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.gson.annotations.SerializedName
 import com.squareup.moshi.Json
 
-data class MRData(
+data class ResponseRaces(
     val MRData: MRDataRaces
 )
 
@@ -16,20 +16,24 @@ data class MRDataRaces(
     val total: String,
     val RaceTable: RaceTable
 ) {
-    init {
-        Log.e("MRDataRaces init", xmlns)
+    override fun toString(): String {
+        return "$xmlns / $series / $limit / $offset / $total / $RaceTable / "
     }
-
-//    override fun toString(): String {
-//        return "$xmlns / $series / $limit / $offset / $total / $RaceTable / "
-//    }
 }
 
 
 data class RaceTable(
     val season: String,
     val Races: List<Races>
-)
+) {
+    fun getRaceNameList(): MutableList<String> {
+        val raceNameList: MutableList<String> = mutableListOf()
+        Races.forEach {
+            raceNameList.add(it.raceName)
+        }
+        return raceNameList
+    }
+}
 
 data class Races(
     val season: String,
@@ -56,6 +60,11 @@ data class Location(
     val country: String?
 )
 
+data class ResponseDrivers(
+    @SerializedName("MRData")
+    val MRDataDrivers: MRDataDrivers
+)
+
 data class MRDataDrivers(
     val series: String,
     val limit: String,
@@ -79,6 +88,11 @@ data class Drivers(
     val familyName: String,
     val dateOfBirth: String,
     val nationality: String
+)
+
+data class ResponsePitStops(
+    @SerializedName("MRData")
+    val MRDataPitStops: MRDataPitStops
 )
 
 data class MRDataPitStops(
