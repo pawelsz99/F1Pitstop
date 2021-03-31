@@ -34,7 +34,6 @@ private val gson = GsonBuilder()
  */
 private
 val retrofit = Retrofit.Builder()
-//    .addConverterFactory(MoshiConverterFactory.create(moshi))
     .addConverterFactory(GsonConverterFactory.create(gson))
     .baseUrl(BASE_URL)
     .build()
@@ -48,5 +47,6 @@ interface ErgastApiService {
     @GET("{season}/races.json")
     fun getRaces(@Path("season") season: String): Call<ResponseRaces>
 
-    @GET()
+    @GET("{season}/{round}/drivers.json")
+    fun getDrivers(@Path("season") season: String, @Path("round") round : String): Call<ResponseDrivers>
 }

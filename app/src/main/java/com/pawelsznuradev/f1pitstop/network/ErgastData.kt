@@ -1,5 +1,6 @@
 package com.pawelsznuradev.f1pitstop.network
 
+import android.os.DropBoxManager
 import android.util.Log
 import com.google.gson.annotations.SerializedName
 import com.squareup.moshi.Json
@@ -27,11 +28,11 @@ data class RaceTable(
     val Races: List<Races>
 ) {
     fun getRaceNameList(): MutableList<String> {
-        val raceNameList: MutableList<String> = mutableListOf()
+        val racesNameList: MutableList<String> = mutableListOf()
         Races.forEach {
-            raceNameList.add(it.raceName)
+            racesNameList.add(it.raceName)
         }
-        return raceNameList
+        return racesNameList
     }
 }
 
@@ -77,7 +78,15 @@ data class DriverTable(
     val season: String,
     val round: String,
     val Drivers: List<Drivers>
-)
+){
+    fun getDriverNameList(): MutableList<String> {
+        val driversNameList: MutableList<String> = mutableListOf()
+        Drivers.forEach {
+            driversNameList.add("${it.givenName} ${it.familyName}")
+        }
+        return driversNameList
+    }
+}
 
 data class Drivers(
     val driverId: String,
