@@ -12,11 +12,11 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var racesNameList : List<String>
-    lateinit var driversNameList : List<String>
+    lateinit var racesNameList: List<String>
+    lateinit var driversNameList: List<String>
 
 
-    lateinit var raceSelected : String
+    lateinit var raceSelected: String
 
     var season = "2020" // change this when adding season selection
 
@@ -25,27 +25,35 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        raceSelected = "1"
+        raceSelected = "1" // change this when adding race selection
 
 //        getRaces()
-        getDrivers()
+//        getDrivers()
 
     }
 
     private fun getDrivers() {
-        ErgastApi.retrofitService.getDrivers(season, raceSelected).enqueue(object : Callback<ResponseDrivers> {
-            override fun onResponse(call: Call<ResponseDrivers>, response: Response<ResponseDrivers>) {
-                Log.e("driversResponse", response.body()!!.MRDataDrivers.DriverTable.getDriverNameList().toString())
+        ErgastApi.retrofitService.getDrivers(season, raceSelected)
+            .enqueue(object : Callback<ResponseDrivers> {
+                override fun onResponse(
+                    call: Call<ResponseDrivers>,
+                    response: Response<ResponseDrivers>
+                ) {
+                    Log.e(
+                        "driversResponse",
+                        response.body()!!.MRDataDrivers.DriverTable.getDriverNameList().toString()
+                    )
 
-                driversNameList = response.body()!!.MRDataDrivers.DriverTable.getDriverNameList()
+                    driversNameList =
+                        response.body()!!.MRDataDrivers.DriverTable.getDriverNameList()
 
-            }
+                }
 
-            override fun onFailure(call: Call<ResponseDrivers>, t: Throwable) {
-                t.message?.let { Log.e("driversFAILURE", it) }
-            }
+                override fun onFailure(call: Call<ResponseDrivers>, t: Throwable) {
+                    t.message?.let { Log.e("driversFAILURE", it) }
+                }
 
-        })
+            })
     }
 
     private fun getRaces() {

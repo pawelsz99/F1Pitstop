@@ -33,7 +33,6 @@ android {
 
 dependencies {
 
-    def version_moshi = "1.9.3"
     def version_retrofit = "2.9.0"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -44,21 +43,12 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
-    // Moshi
-    implementation "com.squareup.moshi:moshi:$version_moshi"
-    implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
-
     // Gson
     implementation 'com.google.code.gson:gson:2.8.6'
-
-
+    
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
     implementation "com.squareup.retrofit2:converter-scalars:$version_retrofit"
-
-    // Retrofit with Moshi Converter
-    implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
 
     implementation "com.squareup.retrofit2:converter-gson:$version_retrofit"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'

@@ -78,7 +78,7 @@ data class DriverTable(
     val season: String,
     val round: String,
     val Drivers: List<Drivers>
-){
+) {
     fun getDriverNameList(): MutableList<String> {
         val driversNameList: MutableList<String> = mutableListOf()
         Drivers.forEach {
