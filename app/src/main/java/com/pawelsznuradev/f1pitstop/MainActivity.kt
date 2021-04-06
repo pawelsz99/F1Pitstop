@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import androidx.databinding.DataBindingUtil
+import com.pawelsznuradev.f1pitstop.databinding.ActivityMainBinding
 import com.pawelsznuradev.f1pitstop.network.ErgastApi
 import com.pawelsznuradev.f1pitstop.network.ResponseDrivers
 import com.pawelsznuradev.f1pitstop.network.ResponsePitStops
@@ -13,6 +15,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
 
     lateinit var racesNameList: List<String>
     lateinit var driversNameList: List<String>
@@ -29,8 +33,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+//        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        binding.text1.text = "hola mundo"
 
         // hard coded values
         roundSelected = "1"
@@ -42,6 +48,12 @@ class MainActivity : AppCompatActivity() {
         getDrivers()
         pitStopDurationList1 = getPitStops(driverId1, pitStopDurationList1)
         pitStopDurationList2 = getPitStops(driverId2, pitStopDurationList2)
+
+
+        val info =
+            "F1 season $season, round $roundSelected, driver $driverId1: $pitStopDurationList1, driver $driverId2: $pitStopDurationList2 "
+
+        binding.text1.text = info
 
 
     }
