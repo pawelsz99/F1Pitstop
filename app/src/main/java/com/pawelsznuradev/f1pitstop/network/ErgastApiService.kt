@@ -37,4 +37,11 @@ interface ErgastApiService {
         @Path("season") season: String,
         @Path("round") round: String
     ): Call<ResponseDrivers>
+
+    @GET("{season}/{round}/drivers/{driverId}/pitstops.json")
+    fun getPitStops(
+        @Path("season") season: String,
+        @Path("round") round: String,
+        @Path("driverId") driverId: String
+    ): Call<ResponsePitStops>
 }

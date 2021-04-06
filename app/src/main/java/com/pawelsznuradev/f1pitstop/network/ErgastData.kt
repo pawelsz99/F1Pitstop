@@ -1,9 +1,6 @@
 package com.pawelsznuradev.f1pitstop.network
 
-import android.os.DropBoxManager
-import android.util.Log
 import com.google.gson.annotations.SerializedName
-import com.squareup.moshi.Json
 
 data class ResponseRaces(
     val MRData: MRDataRaces
@@ -117,7 +114,9 @@ data class RaceTable2(
     val season: String,
     @SerializedName("Races")
     val Races2: List<Races2>
+
 )
+
 
 data class Races2(
     val season: String,
@@ -128,7 +127,15 @@ data class Races2(
     val date: String,
     val time: String,
     val PitStops: List<PitStops>
-)
+){
+    fun getPitStopDurationList(): MutableList<String> {
+        val pitStopDurationList: MutableList<String> = mutableListOf()
+        PitStops.forEach {
+            pitStopDurationList.add("${it.duration} ")
+        }
+        return pitStopDurationList
+    }
+}
 
 data class PitStops(
     val driverId: String,
