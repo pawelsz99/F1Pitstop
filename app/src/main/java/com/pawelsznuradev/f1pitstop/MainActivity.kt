@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 //        setContentView(R.layout.activity_main)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        binding.text1.text = "hola mundo"
+//        binding.text1.text = "hola mundo"
 
         // hard coded values
         roundSelected = "1"
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         val info =
             "F1 season $season, round $roundSelected, driver $driverId1: $pitStopDurationList1, driver $driverId2: $pitStopDurationList2 "
 
-        binding.text1.text = info
+//        binding.text1.text = info
 
 
     }
