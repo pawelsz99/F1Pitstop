@@ -9,17 +9,17 @@ import java.util.HashMap
  *
  * TODO: Replace all uses of this class before publishing your app.
  */
-object ListItemContent {
+object DummyContent {
 
     /**
      * An array of sample (dummy) items.
      */
-    val ITEMS: MutableList<ListItem> = ArrayList()
+    val ITEMS: MutableList<DummyItem> = ArrayList()
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    val ITEM_MAP: MutableMap<String, ListItem> = HashMap()
+    val ITEM_MAP: MutableMap<String, DummyItem> = HashMap()
 
     private val COUNT = 20
 
@@ -30,20 +30,20 @@ object ListItemContent {
         }
     }
 
-    private fun addItem(item: ListItem) {
+    private fun addItem(item: DummyItem) {
         ITEMS.add(item)
         ITEM_MAP[item.id] = item
     }
 
-    private fun createListItem(position: Int): ListItem {
-        return ListItem(position.toString(), "Item $position")
+    private fun createListItem(position: Int): DummyItem {
+        return DummyItem(position.toString(), "Item $position")
     }
 
 
     /**
      * A dummy item representing a piece of content.
      */
-    data class ListItem(val id: String, val content: String) {
+    data class DummyItem(val id: String, val content: String) {
         override fun toString(): String = content
     }
 }

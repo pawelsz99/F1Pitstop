@@ -23,7 +23,7 @@ import retrofit2.Response
  */
 class HomeFragment : Fragment() {
 
-    lateinit var racesNameList: List<String>
+    lateinit var racesNameList: List<SelectListData>
     lateinit var driversNameList: List<String>
     private var pitStopDurationList1 = mutableListOf<String>()
     private var pitStopDurationList2 = mutableListOf<String>()
@@ -51,9 +51,9 @@ class HomeFragment : Fragment() {
 
 
         getRaces()
-        getDrivers()
-        pitStopDurationList1 = getPitStops(driverId1, pitStopDurationList1)
-        pitStopDurationList2 = getPitStops(driverId2, pitStopDurationList2)
+//        getDrivers()
+//        pitStopDurationList1 = getPitStops(driverId1, pitStopDurationList1)
+//        pitStopDurationList2 = getPitStops(driverId2, pitStopDurationList2)
 
 
         val info =
@@ -67,7 +67,7 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    // TODO convert the function to return an object
+    // TODO convert the function to return an list of objects
 
     private fun getPitStops(
         driverId: String,

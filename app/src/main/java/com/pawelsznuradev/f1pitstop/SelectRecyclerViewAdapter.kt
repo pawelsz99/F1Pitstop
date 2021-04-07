@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
-import com.pawelsznuradev.f1pitstop.listItem.ListItemContent.ListItem
+import com.pawelsznuradev.f1pitstop.listItem.DummyContent.DummyItem
 
 /**
- * [RecyclerView.Adapter] that can display a [ListItem].
+ * [RecyclerView.Adapter] that can display a [DummyItem].
  * TODO: Replace the implementation with code for your data type.
  */
 class SelectRecyclerViewAdapter(
-    private val values: List<ListItem>
+    private val values: List<DummyItem>
 ) : RecyclerView.Adapter<SelectRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

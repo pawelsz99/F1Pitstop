@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.pawelsznuradev.f1pitstop.listItem.ListItemContent
+import com.pawelsznuradev.f1pitstop.listItem.DummyContent
 
 /**
  * A fragment representing a list of Items.
@@ -38,7 +38,7 @@ class SelectFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = SelectRecyclerViewAdapter(ListItemContent.ITEMS)
+                adapter = SelectRecyclerViewAdapter(DummyContent.ITEMS)
             }
         }
         return view

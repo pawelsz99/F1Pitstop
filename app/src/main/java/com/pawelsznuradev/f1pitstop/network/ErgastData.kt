@@ -1,6 +1,7 @@
 package com.pawelsznuradev.f1pitstop.network
 
 import com.google.gson.annotations.SerializedName
+import com.pawelsznuradev.f1pitstop.SelectListData
 
 data class ResponseRaces(
     val MRData: MRDataRaces
@@ -24,10 +25,10 @@ data class RaceTable(
     val season: String,
     val Races: List<Races>
 ) {
-    fun getRaceNameList(): MutableList<String> {
-        val racesNameList: MutableList<String> = mutableListOf()
+    fun getRaceNameList(): MutableList<SelectListData> {
+        val racesNameList: MutableList<SelectListData> = mutableListOf()
         Races.forEach {
-            racesNameList.add(it.raceName)
+            racesNameList.add(SelectListData(it.round, it.raceName))
         }
         return racesNameList
     }
