@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.pawelsznuradev.f1pitstop.databinding.FragmentHomeBinding
@@ -23,7 +24,7 @@ import retrofit2.Response
  */
 class HomeFragment : Fragment() {
 
-    lateinit var racesNameList: List<SelectListData>
+    lateinit var racesNameList : ArrayList<SelectListData>
     lateinit var driversNameList: List<String>
     private var pitStopDurationList1 = mutableListOf<String>()
     private var pitStopDurationList2 = mutableListOf<String>()
@@ -32,6 +33,7 @@ class HomeFragment : Fragment() {
     lateinit var roundSelected: String
     lateinit var driverId1: String
     lateinit var driverId2: String
+    val bundle = Bundle()
 
     var season = "2020" // change this when adding season selection
 
@@ -60,7 +62,7 @@ class HomeFragment : Fragment() {
             "F1 season $season, round $roundSelected, driver $driverId1: $pitStopDurationList1, driver $driverId2: $pitStopDurationList2 "
 
 
-        binding.textRace.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_selectFragment))
+        binding.textRace.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_selectFragment, bundle))
         Log.e("HomeFreagment", "hellooooo2")
 
 
@@ -131,7 +133,8 @@ class HomeFragment : Fragment() {
                 Log.e("racesRESPONSE", response.body().toString())
                 Log.e("racesName", response.body()!!.MRData.RaceTable.getRaceNameList().toString())
 
-                racesNameList = response.body()!!.MRData.RaceTable.getRaceNameList()
+                racesNameList = response.body()!!.MRData.RaceTable.getRaceNameList() as ArrayList<SelectListData>
+                bundle.putParcelableArrayList("list", racesNameList)
 
             }
 

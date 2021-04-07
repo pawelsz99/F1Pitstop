@@ -1,6 +1,7 @@
 package com.pawelsznuradev.f1pitstop
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,13 +17,16 @@ import com.pawelsznuradev.f1pitstop.listItem.DummyContent
 class SelectFragment : Fragment() {
 
     private var columnCount = 1
+    lateinit var racesNameList: List<SelectListData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
+            racesNameList = it.getParcelableArrayList<SelectListData>("list")!!
         }
+        Log.e("Select Fragment", racesNameList.toString())
     }
 
     override fun onCreateView(
