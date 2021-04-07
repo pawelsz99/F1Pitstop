@@ -1,7 +1,6 @@
 package com.pawelsznuradev.f1pitstop
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.pawelsznuradev.f1pitstop.listItem.DummyContent
 
 /**
  * A fragment representing a list of Items.
@@ -23,10 +21,9 @@ class SelectFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
             racesNameList = it.getParcelableArrayList<SelectListData>("list")!!
         }
-        Log.e("Select Fragment", racesNameList.toString())
+//        Log.e("Select Fragment", racesNameList.toString())
     }
 
     override fun onCreateView(
@@ -42,24 +39,10 @@ class SelectFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = SelectRecyclerViewAdapter(DummyContent.ITEMS)
+                adapter = SelectRecyclerViewAdapter(racesNameList)
             }
         }
         return view
     }
 
-    companion object {
-
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            SelectFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
-    }
 }

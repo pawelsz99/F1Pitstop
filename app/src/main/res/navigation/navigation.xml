@@ -16,6 +16,9 @@
                 android:name="listOfItems"
                 android:defaultValue="@null" />
         </action>
+        <action
+            android:id="@+id/action_homeFragment_to_resultFragment"
+            app:destination="@id/resultFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectFragment"

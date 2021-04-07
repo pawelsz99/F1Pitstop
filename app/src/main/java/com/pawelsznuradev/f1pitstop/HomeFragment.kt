@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.pawelsznuradev.f1pitstop.databinding.FragmentHomeBinding
@@ -24,16 +23,17 @@ import retrofit2.Response
  */
 class HomeFragment : Fragment() {
 
-    lateinit var racesNameList : ArrayList<SelectListData>
-    lateinit var driversNameList: List<String>
+    lateinit var racesNameList: ArrayList<SelectListData>
+    lateinit var driversNameList: ArrayList<SelectListData>
     private var pitStopDurationList1 = mutableListOf<String>()
     private var pitStopDurationList2 = mutableListOf<String>()
 
 
-    lateinit var roundSelected: String
+    lateinit var round: String
     lateinit var driverId1: String
     lateinit var driverId2: String
-    val bundle = Bundle()
+    val bundleRaces = Bundle()
+    val bundleDrivers = Bundle()
 
     var season = "2020" // change this when adding season selection
 
@@ -42,56 +42,77 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding : FragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        Log.e("HomeFreagment", "hellooooo")
+        val binding: FragmentHomeBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
 
         // hard coded values
-        roundSelected = "1"
+        round = "1"
         driverId1 = "sainz"
         driverId2 = "vettel"
 
 
-        getRaces()
-//        getDrivers()
-//        pitStopDurationList1 = getPitStops(driverId1, pitStopDurationList1)
-//        pitStopDurationList2 = getPitStops(driverId2, pitStopDurationList2)
+//        getRaces(season)
+//        getDrivers(season, round)
+        pitStopDurationList1 = getPitStops(season, round, driverId1, pitStopDurationList1)
+        pitStopDurationList2 = getPitStops(season, round, driverId2, pitStopDurationList2)
 
 
-        val info =
-            "F1 season $season, round $roundSelected, driver $driverId1: $pitStopDurationList1, driver $driverId2: $pitStopDurationList2 "
+        binding.textRace.setOnClickListener(
+            selectRace()
+        )
 
+        binding.textDriver1.setOnClickListener(
+            selectDriver()
+        )
 
-        binding.textRace.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_selectFragment, bundle))
-        Log.e("HomeFreagment", "hellooooo2")
+        binding.textDriver2.setOnClickListener(
+            selectDriver()
+        )
 
 
         return binding.root
     }
 
+    private fun selectDriver(): View.OnClickListener? {
+//        Log.e("SelectDriver", "Start")
+        getDrivers(season, round)
+        return Navigation.createNavigateOnClickListener(
+            R.id.action_homeFragment_to_selectFragment,
+            bundleDrivers
+        )
+    }
+
+    private fun selectRace(): View.OnClickListener? {
+//        Log.e("SelectRace", "Start")
+        getRaces(season)
+        return Navigation.createNavigateOnClickListener(
+            R.id.action_homeFragment_to_selectFragment,
+            bundleRaces
+        )
+    }
+
     // TODO convert the function to return an list of objects
 
+
     private fun getPitStops(
+        season: String,
+        round: String,
         driverId: String,
         pitStopDurationList: MutableList<String>
     ): MutableList<String> {
-        ErgastApi.retrofitService.getPitStops(season, roundSelected, driverId)
+        ErgastApi.retrofitService.getPitStops(season, round, driverId)
             .enqueue(object : Callback<ResponsePitStops> {
                 override fun onResponse(
                     call: Call<ResponsePitStops>,
                     response: Response<ResponsePitStops>
                 ) {
-
-                    Log.e(
-                        "pitStopRESPONSE $driverId",
-                        response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getPitStopDurationList()
-                            .toString()
-                    )
-
-
-
+//                    Log.e(
+//                        "pitStopRESPONSE $driverId",
+//                        response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getPitStopDurationList()
+//                            .toString()
+//                    )
                     pitStopDurationList.addAll(response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getPitStopDurationList())
-
                 }
 
                 override fun onFailure(call: Call<ResponsePitStops>, t: Throwable) {
@@ -103,21 +124,21 @@ class HomeFragment : Fragment() {
         return pitStopDurationList
     }
 
-    private fun getDrivers() {
-        ErgastApi.retrofitService.getDrivers(season, roundSelected)
+    private fun getDrivers(season: String, round: String) {
+        ErgastApi.retrofitService.getDrivers(season, round)
             .enqueue(object : Callback<ResponseDrivers> {
                 override fun onResponse(
                     call: Call<ResponseDrivers>,
                     response: Response<ResponseDrivers>
                 ) {
-                    Log.e(
-                        "driversResponse",
-                        response.body()!!.MRDataDrivers.DriverTable.getDriverNameList().toString()
-                    )
+//                    Log.e(
+//                        "driversResponse",
+//                        response.body()!!.MRDataDrivers.DriverTable.getDriverNameList().toString()
+//                    )
 
                     driversNameList =
-                        response.body()!!.MRDataDrivers.DriverTable.getDriverNameList()
-
+                        response.body()!!.MRDataDrivers.DriverTable.getDriverNameList() as ArrayList<SelectListData>
+                    bundleDrivers.putParcelableArrayList("list", driversNameList)
                 }
 
                 override fun onFailure(call: Call<ResponseDrivers>, t: Throwable) {
@@ -127,14 +148,15 @@ class HomeFragment : Fragment() {
             })
     }
 
-    private fun getRaces() {
-        ErgastApi.retrofitService.getRaces("2020").enqueue(object : Callback<ResponseRaces> {
+    private fun getRaces(season: String) {
+        ErgastApi.retrofitService.getRaces(season).enqueue(object : Callback<ResponseRaces> {
             override fun onResponse(call: Call<ResponseRaces>, response: Response<ResponseRaces>) {
-                Log.e("racesRESPONSE", response.body().toString())
-                Log.e("racesName", response.body()!!.MRData.RaceTable.getRaceNameList().toString())
+//                Log.e("racesRESPONSE", response.body().toString())
+//                Log.e("racesName", response.body()!!.MRData.RaceTable.getRaceNameList().toString())
 
-                racesNameList = response.body()!!.MRData.RaceTable.getRaceNameList() as ArrayList<SelectListData>
-                bundle.putParcelableArrayList("list", racesNameList)
+                racesNameList =
+                    response.body()!!.MRData.RaceTable.getRaceNameList() as ArrayList<SelectListData>
+                bundleRaces.putParcelableArrayList("list", racesNameList)
 
             }
 

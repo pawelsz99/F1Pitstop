@@ -77,10 +77,10 @@ data class DriverTable(
     val round: String,
     val Drivers: List<Drivers>
 ) {
-    fun getDriverNameList(): MutableList<String> {
-        val driversNameList: MutableList<String> = mutableListOf()
+    fun getDriverNameList(): MutableList<SelectListData> {
+        val driversNameList: MutableList<SelectListData> = mutableListOf()
         Drivers.forEach {
-            driversNameList.add("${it.givenName} ${it.familyName}")
+            driversNameList.add(SelectListData(it.driverId, "${it.givenName} ${it.familyName}"))
         }
         return driversNameList
     }
@@ -128,7 +128,7 @@ data class Races2(
     val date: String,
     val time: String,
     val PitStops: List<PitStops>
-){
+) {
     fun getPitStopDurationList(): MutableList<String> {
         val pitStopDurationList: MutableList<String> = mutableListOf()
         PitStops.forEach {
