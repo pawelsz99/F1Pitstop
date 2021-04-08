@@ -1,11 +1,16 @@
 package com.pawelsznuradev.f1pitstop
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import androidx.annotation.RequiresApi
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.pawelsznuradev.f1pitstop.databinding.FragmentHomeBinding
@@ -16,6 +21,9 @@ import com.pawelsznuradev.f1pitstop.network.ResponseRaces
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.Year
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -28,14 +36,13 @@ class HomeFragment : Fragment() {
     private var pitStopDurationList1 = mutableListOf<String>()
     private var pitStopDurationList2 = mutableListOf<String>()
 
-
-    lateinit var round: String
-    lateinit var driverId1: String
-    lateinit var driverId2: String
+    private lateinit var season: String
+    private lateinit var round: String
+    private lateinit var driverId1: String
+    private lateinit var driverId2: String
     val bundleRaces = Bundle()
     val bundleDrivers = Bundle()
 
-    var season = "2020" // change this when adding season selection
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +52,27 @@ class HomeFragment : Fragment() {
         val binding: FragmentHomeBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
+        // Select Season
+        val listSeasons = mutableListOf<String>()
+        for (i in 2011..Calendar.getInstance().get(Calendar.YEAR)) {
+            listSeasons.add("$i")
+        }
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, listSeasons)
+        (binding.selectSeason.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+
+
+        test(binding)
+        Log.e("season selected ", season)
+        Log.e("season selected ", "test")
+
+
+        binding.buttonCompare.setOnClickListener {
+            test(binding)
+        }
+
 
         // hard coded values
+        //  season = "2020"
         round = "1"
         driverId1 = "sainz"
         driverId2 = "vettel"
@@ -54,25 +80,19 @@ class HomeFragment : Fragment() {
 
 //        getRaces(season)
 //        getDrivers(season, round)
-        pitStopDurationList1 = getPitStops(season, round, driverId1, pitStopDurationList1)
-        pitStopDurationList2 = getPitStops(season, round, driverId2, pitStopDurationList2)
-
-
-        binding.textRace.setOnClickListener(
-            selectRace()
-        )
-
-        binding.textDriver1.setOnClickListener(
-            selectDriver()
-        )
-
-        binding.textDriver2.setOnClickListener(
-            selectDriver()
-        )
+//        pitStopDurationList1 = getPitStops(season, round, driverId1, pitStopDurationList1)
+//        pitStopDurationList2 = getPitStops(season, round, driverId2, pitStopDurationList2)
 
 
         return binding.root
     }
+
+    private fun test(binding: FragmentHomeBinding) {
+        season = binding.selectSeason.editText?.text.toString()
+        Log.e("season selected ", season)
+        Log.e("season selected ", "test")
+    }
+
 
     private fun selectDriver(): View.OnClickListener? {
 //        Log.e("SelectDriver", "Start")
