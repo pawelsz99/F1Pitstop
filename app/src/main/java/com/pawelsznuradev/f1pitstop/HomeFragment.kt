@@ -1,16 +1,15 @@
 package com.pawelsznuradev.f1pitstop
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.annotation.RequiresApi
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.pawelsznuradev.f1pitstop.databinding.FragmentHomeBinding
@@ -21,7 +20,6 @@ import com.pawelsznuradev.f1pitstop.network.ResponseRaces
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.time.Year
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -59,15 +57,18 @@ class HomeFragment : Fragment() {
         }
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item, listSeasons)
         (binding.selectSeason.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        binding.selectSeasonList.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, i, l ->
+                onSeasonSelected(binding)
+                Log.e("items", "i = $i, l = $l")
+            }
 
 
-        test(binding)
-        Log.e("season selected ", season)
-        Log.e("season selected ", "test")
+        // Select Race
 
 
         binding.buttonCompare.setOnClickListener {
-            test(binding)
+            // when the "Compare" button is clicked
         }
 
 
@@ -87,12 +88,11 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    private fun test(binding: FragmentHomeBinding) {
-        season = binding.selectSeason.editText?.text.toString()
-        Log.e("season selected ", season)
-        Log.e("season selected ", "test")
-    }
 
+    private fun onSeasonSelected(binding: FragmentHomeBinding) {
+        season = binding.selectSeason.editText?.text.toString()
+        Log.e("season ", season)
+    }
 
     private fun selectDriver(): View.OnClickListener? {
 //        Log.e("SelectDriver", "Start")
@@ -112,8 +112,8 @@ class HomeFragment : Fragment() {
         )
     }
 
-    // TODO convert the function to return an list of objects
 
+    // TODO convert the function to return an list of objects
 
     private fun getPitStops(
         season: String,
@@ -186,5 +186,4 @@ class HomeFragment : Fragment() {
 
         })
     }
-
 }
