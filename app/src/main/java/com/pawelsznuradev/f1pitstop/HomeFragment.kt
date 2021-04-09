@@ -29,6 +29,7 @@ import kotlin.collections.ArrayList
  */
 class HomeFragment : Fragment() {
 
+    var races = mapOf<String, String>()
     lateinit var racesNameList: ArrayList<SelectListData>
     lateinit var driversNameList: ArrayList<SelectListData>
     private var pitStopDurationList1 = mutableListOf<String>()
@@ -41,16 +42,50 @@ class HomeFragment : Fragment() {
     val bundleRaces = Bundle()
     val bundleDrivers = Bundle()
 
+    private lateinit var binding: FragmentHomeBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding: FragmentHomeBinding =
+        binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         // Select Season
+        populateSeasons(binding)
+
+
+
+
+        binding.buttonCompare.setOnClickListener {
+            // when the "Compare" button is clicked
+        }
+
+
+        // hard coded values
+        round = "1"
+        driverId1 = "sainz"
+        driverId2 = "vettel"
+//        getRaces(season)
+//        getDrivers(season, round)
+//        pitStopDurationList1 = getPitStops(season, round, driverId1, pitStopDurationList1)
+//        pitStopDurationList2 = getPitStops(season, round, driverId2, pitStopDurationList2)
+        return binding.root
+    }
+
+    private fun populateRaces(binding: FragmentHomeBinding) {
+        Log.e("populate races", races.values.toString())
+//        val raceNames = races.values as List<String>
+        val raceNames = ArrayList(races.values)
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, raceNames)
+        (binding.selectRace.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        binding.selectRaceList.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, i, l -> onRaceSelected(binding) }
+    }
+
+    private fun populateSeasons(binding: FragmentHomeBinding) {
         val listSeasons = mutableListOf<String>()
         for (i in 2011..Calendar.getInstance().get(Calendar.YEAR)) {
             listSeasons.add("$i")
@@ -60,57 +95,38 @@ class HomeFragment : Fragment() {
         binding.selectSeasonList.onItemClickListener =
             AdapterView.OnItemClickListener { adapterView, view, i, l ->
                 onSeasonSelected(binding)
-                Log.e("items", "i = $i, l = $l")
             }
-
-
-        // Select Race
-
-
-        binding.buttonCompare.setOnClickListener {
-            // when the "Compare" button is clicked
-        }
-
-
-        // hard coded values
-        //  season = "2020"
-        round = "1"
-        driverId1 = "sainz"
-        driverId2 = "vettel"
-
-
-//        getRaces(season)
-//        getDrivers(season, round)
-//        pitStopDurationList1 = getPitStops(season, round, driverId1, pitStopDurationList1)
-//        pitStopDurationList2 = getPitStops(season, round, driverId2, pitStopDurationList2)
-
-
-        return binding.root
     }
 
+    private fun onRaceSelected(binding: FragmentHomeBinding) {
+        round = binding.selectRace.editText?.text.toString()
+        Log.e("round ", round)
+    }
 
     private fun onSeasonSelected(binding: FragmentHomeBinding) {
         season = binding.selectSeason.editText?.text.toString()
         Log.e("season ", season)
-    }
-
-    private fun selectDriver(): View.OnClickListener? {
-//        Log.e("SelectDriver", "Start")
-        getDrivers(season, round)
-        return Navigation.createNavigateOnClickListener(
-            R.id.action_homeFragment_to_selectFragment,
-            bundleDrivers
-        )
-    }
-
-    private fun selectRace(): View.OnClickListener? {
-//        Log.e("SelectRace", "Start")
         getRaces(season)
-        return Navigation.createNavigateOnClickListener(
-            R.id.action_homeFragment_to_selectFragment,
-            bundleRaces
-        )
+//        populateRaces(binding)
     }
+
+//    private fun selectDriver(): View.OnClickListener? {
+////        Log.e("SelectDriver", "Start")
+//        getDrivers(season, round)
+//        return Navigation.createNavigateOnClickListener(
+//            R.id.action_homeFragment_to_selectFragment,
+//            bundleDrivers
+//        )
+//    }
+//
+//    private fun selectRace(): View.OnClickListener? {
+////        Log.e("SelectRace", "Start")
+//        getRaces(season)
+//        return Navigation.createNavigateOnClickListener(
+//            R.id.action_homeFragment_to_selectFragment,
+//            bundleRaces
+//        )
+//    }
 
 
     // TODO convert the function to return an list of objects
@@ -171,13 +187,12 @@ class HomeFragment : Fragment() {
     private fun getRaces(season: String) {
         ErgastApi.retrofitService.getRaces(season).enqueue(object : Callback<ResponseRaces> {
             override fun onResponse(call: Call<ResponseRaces>, response: Response<ResponseRaces>) {
-//                Log.e("racesRESPONSE", response.body().toString())
-//                Log.e("racesName", response.body()!!.MRData.RaceTable.getRaceNameList().toString())
+                Log.e("racesRESPONSE", response.body().toString())
+                Log.e("racesName", response.body()!!.MRData.RaceTable.getRaceNameList().toString())
 
-                racesNameList =
-                    response.body()!!.MRData.RaceTable.getRaceNameList() as ArrayList<SelectListData>
-                bundleRaces.putParcelableArrayList("list", racesNameList)
-
+                races = response.body()!!.MRData.RaceTable.getRaceNameList()
+                populateRaces(binding)
+//                bundleRaces.putParcelableArrayList("list", racesNameList)
             }
 
             override fun onFailure(call: Call<ResponseRaces>, t: Throwable) {

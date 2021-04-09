@@ -36,6 +36,7 @@
             app:layout_constraintTop_toBottomOf="@+id/select_season">
 
             <AutoCompleteTextView
+                android:id="@+id/select_race_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />

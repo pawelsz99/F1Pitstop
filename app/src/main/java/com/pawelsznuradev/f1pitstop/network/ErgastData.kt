@@ -25,13 +25,20 @@ data class RaceTable(
     val season: String,
     val Races: List<Races>
 ) {
-    fun getRaceNameList(): MutableList<SelectListData> {
-        val racesNameList: MutableList<SelectListData> = mutableListOf()
+    fun getRaceNameList(): Map<String, String> {
+        val racesNameList = mutableMapOf<String, String>()
         Races.forEach {
-            racesNameList.add(SelectListData(it.round, it.raceName))
+            racesNameList[it.round] = it.raceName
         }
         return racesNameList
     }
+//    fun getRaceNameList(): MutableList<SelectListData> {
+//        val racesNameList: MutableList<SelectListData> = mutableListOf()
+//        Races.forEach {
+//            racesNameList.add(SelectListData(it.round, it.raceName))
+//        }
+//        return racesNameList
+//    }
 }
 
 data class Races(
