@@ -1,6 +1,7 @@
 package com.pawelsznuradev.f1pitstop.network
 
 import com.google.gson.annotations.SerializedName
+import com.pawelsznuradev.f1pitstop.IdNameCollection
 
 data class ResponseRaces(
     val MRData: MRDataRaces
@@ -24,12 +25,14 @@ data class RaceTable(
     val season: String,
     val Races: List<Races>
 ) {
-    fun getRaceNameList(): MutableList<String> {
-        val racesNameList: MutableList<String> = mutableListOf()
+    fun getRaceIdNameCollection(): IdNameCollection {
+        val racesNameList = mutableListOf<String>()
+        val racesIdList = mutableListOf<String>()
         Races.forEach {
             racesNameList.add(it.raceName)
+            racesIdList.add(it.round)
         }
-        return racesNameList
+        return IdNameCollection(racesIdList, racesNameList)
     }
 }
 
@@ -76,13 +79,16 @@ data class DriverTable(
     val round: String,
     val Drivers: List<Drivers>
 ) {
-    fun getDriverNameList(): MutableList<String> {
-        val driversNameList: MutableList<String> = mutableListOf()
+    fun getDriverNameList(): IdNameCollection {
+        val driversNameList = mutableListOf<String>()
+        val driversIdList = mutableListOf<String>()
         Drivers.forEach {
             driversNameList.add("${it.givenName} ${it.familyName}")
+            driversIdList.add(it.driverId)
         }
-        return driversNameList
+        return IdNameCollection(driversIdList, driversNameList)
     }
+
 }
 
 data class Drivers(
@@ -127,7 +133,7 @@ data class Races2(
     val date: String,
     val time: String,
     val PitStops: List<PitStops>
-){
+) {
     fun getPitStopDurationList(): MutableList<String> {
         val pitStopDurationList: MutableList<String> = mutableListOf()
         PitStops.forEach {
