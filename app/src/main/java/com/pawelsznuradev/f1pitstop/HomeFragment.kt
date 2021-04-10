@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.Navigation
 import com.pawelsznuradev.f1pitstop.databinding.FragmentHomeBinding
 import com.pawelsznuradev.f1pitstop.network.ErgastApi
 import com.pawelsznuradev.f1pitstop.network.ResponseDrivers
@@ -29,7 +27,8 @@ import kotlin.collections.ArrayList
  */
 class HomeFragment : Fragment() {
 
-    var races = mapOf<String, String>()
+    lateinit var races: IdNameCollection
+    lateinit var drivers: IdNameCollection
     lateinit var racesNameList: ArrayList<SelectListData>
     lateinit var driversNameList: ArrayList<SelectListData>
     private var pitStopDurationList1 = mutableListOf<String>()
@@ -60,7 +59,10 @@ class HomeFragment : Fragment() {
 
 
         binding.buttonCompare.setOnClickListener {
-            // when the "Compare" button is clicked
+            Log.e(
+                "All data",
+                "season $season, round $round, driver1 $driverId1, driver2 $driverId2"
+            )
         }
 
 
@@ -75,10 +77,33 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    private fun populateDrivers(binding: FragmentHomeBinding) {
+        Log.e("populate drivers", drivers.nameList.toString())
+        val raceNames = ArrayList(drivers.nameList)
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, raceNames)
+        (binding.selectDriver1.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        binding.selectDriver1List.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, i, l -> onDriver1Selected(binding) }
+
+        (binding.selectDriver2.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        binding.selectDriver2List.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, i, l -> onDriver2Selected(binding) }
+    }
+
+    private fun onDriver1Selected(binding: FragmentHomeBinding) {
+        driverId1 = drivers.getIdByName(binding.selectDriver1.editText?.text.toString())
+        Log.e("driver 1 ", driverId1)
+
+    }
+
+    private fun onDriver2Selected(binding: FragmentHomeBinding) {
+        driverId2 = drivers.getIdByName(binding.selectDriver2.editText?.text.toString())
+        Log.e("driver 1 ", driverId2)
+    }
+
     private fun populateRaces(binding: FragmentHomeBinding) {
-        Log.e("populate races", races.values.toString())
-//        val raceNames = races.values as List<String>
-        val raceNames = ArrayList(races.values)
+        Log.e("populate races", races.nameList.toString())
+        val raceNames = ArrayList(races.nameList)
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item, raceNames)
         (binding.selectRace.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         binding.selectRaceList.onItemClickListener =
@@ -99,37 +124,21 @@ class HomeFragment : Fragment() {
     }
 
     private fun onRaceSelected(binding: FragmentHomeBinding) {
-        round = binding.selectRace.editText?.text.toString()
+
+//        round = binding.selectRace.editText?.text.toString()
+        round = races.getIdByName(binding.selectRace.editText?.text.toString())
         Log.e("round ", round)
+        getDrivers(season, round)
     }
 
     private fun onSeasonSelected(binding: FragmentHomeBinding) {
         season = binding.selectSeason.editText?.text.toString()
         Log.e("season ", season)
         getRaces(season)
-//        populateRaces(binding)
     }
 
-//    private fun selectDriver(): View.OnClickListener? {
-////        Log.e("SelectDriver", "Start")
-//        getDrivers(season, round)
-//        return Navigation.createNavigateOnClickListener(
-//            R.id.action_homeFragment_to_selectFragment,
-//            bundleDrivers
-//        )
-//    }
-//
-//    private fun selectRace(): View.OnClickListener? {
-////        Log.e("SelectRace", "Start")
-//        getRaces(season)
-//        return Navigation.createNavigateOnClickListener(
-//            R.id.action_homeFragment_to_selectFragment,
-//            bundleRaces
-//        )
-//    }
 
-
-    // TODO convert the function to return an list of objects
+    // TODO convert the races map, switch key - value
 
     private fun getPitStops(
         season: String,
@@ -167,14 +176,15 @@ class HomeFragment : Fragment() {
                     call: Call<ResponseDrivers>,
                     response: Response<ResponseDrivers>
                 ) {
-//                    Log.e(
-//                        "driversResponse",
-//                        response.body()!!.MRDataDrivers.DriverTable.getDriverNameList().toString()
-//                    )
-
-                    driversNameList =
-                        response.body()!!.MRDataDrivers.DriverTable.getDriverNameList() as ArrayList<SelectListData>
-                    bundleDrivers.putParcelableArrayList("list", driversNameList)
+                    Log.e("url", "s = $season, r = $round")
+                    Log.e(
+                        "getdrivername",
+                        response.message()
+                    )
+                    drivers =
+                        response.body()!!.MRDataDrivers.DriverTable.getDriverNameList()
+//                    bundleDrivers.putParcelableArrayList("list", driversNameList)
+                    populateDrivers(binding)
                 }
 
                 override fun onFailure(call: Call<ResponseDrivers>, t: Throwable) {
@@ -188,9 +198,12 @@ class HomeFragment : Fragment() {
         ErgastApi.retrofitService.getRaces(season).enqueue(object : Callback<ResponseRaces> {
             override fun onResponse(call: Call<ResponseRaces>, response: Response<ResponseRaces>) {
                 Log.e("racesRESPONSE", response.body().toString())
-                Log.e("racesName", response.body()!!.MRData.RaceTable.getRaceNameList().toString())
+                Log.e(
+                    "racesName",
+                    response.body()!!.MRData.RaceTable.getRaceIdNameCollection().toString()
+                )
 
-                races = response.body()!!.MRData.RaceTable.getRaceNameList()
+                races = response.body()!!.MRData.RaceTable.getRaceIdNameCollection()
                 populateRaces(binding)
 //                bundleRaces.putParcelableArrayList("list", racesNameList)
             }

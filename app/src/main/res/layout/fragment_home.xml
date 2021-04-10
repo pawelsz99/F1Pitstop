@@ -53,6 +53,7 @@
             app:layout_constraintTop_toBottomOf="@+id/select_race">
 
             <AutoCompleteTextView
+                android:id="@+id/select_driver1_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />
@@ -69,6 +70,7 @@
             app:layout_constraintTop_toBottomOf="@+id/select_driver1">
 
             <AutoCompleteTextView
+                android:id="@+id/select_driver2_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />
