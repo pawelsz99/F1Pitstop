@@ -2,7 +2,6 @@ package com.pawelsznuradev.f1pitstop.network
 
 import com.google.gson.annotations.SerializedName
 import com.pawelsznuradev.f1pitstop.IdNameCollection
-import com.pawelsznuradev.f1pitstop.SelectListData
 
 data class ResponseRaces(
     val MRData: MRDataRaces
