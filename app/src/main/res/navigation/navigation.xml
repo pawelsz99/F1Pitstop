@@ -10,23 +10,8 @@
         android:name="com.pawelsznuradev.f1pitstop.HomeFragment"
         android:label="HomeFragment" >
         <action
-            android:id="@+id/action_homeFragment_to_selectFragment"
-            app:destination="@id/selectFragment" >
-            <argument
-                android:name="listOfItems"
-                android:defaultValue="@null" />
-        </action>
-        <action
             android:id="@+id/action_homeFragment_to_resultFragment"
             app:destination="@id/resultFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/selectFragment"
-        android:name="com.pawelsznuradev.f1pitstop.SelectFragment"
-        android:label="fragment_select_list"
-        tools:layout="@layout/fragment_select_list" >
-        <argument
-            android:name="listOfItems" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"

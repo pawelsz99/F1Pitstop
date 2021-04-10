@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.Navigation
 import com.pawelsznuradev.f1pitstop.databinding.FragmentHomeBinding
 import com.pawelsznuradev.f1pitstop.network.ErgastApi
 import com.pawelsznuradev.f1pitstop.network.ResponseDrivers
@@ -16,6 +18,8 @@ import com.pawelsznuradev.f1pitstop.network.ResponseRaces
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -23,76 +27,87 @@ import retrofit2.Response
  */
 class HomeFragment : Fragment() {
 
-    lateinit var racesNameList: ArrayList<SelectListData>
-    lateinit var driversNameList: ArrayList<SelectListData>
-    private var pitStopDurationList1 = mutableListOf<String>()
-    private var pitStopDurationList2 = mutableListOf<String>()
+    lateinit var races: IdNameCollection
+    lateinit var drivers: IdNameCollection
 
+    private lateinit var season: String
+    private lateinit var round: String
+    private lateinit var driverId1: String
+    private lateinit var driverId2: String
+    val bundle = Bundle()
 
-    lateinit var round: String
-    lateinit var driverId1: String
-    lateinit var driverId2: String
-    val bundleRaces = Bundle()
-    val bundleDrivers = Bundle()
-
-    var season = "2020" // change this when adding season selection
+    private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding: FragmentHomeBinding =
+        binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
+        populateSeasons()
 
-        // hard coded values
-        round = "1"
-        driverId1 = "sainz"
-        driverId2 = "vettel"
-
-
-//        getRaces(season)
-//        getDrivers(season, round)
-        pitStopDurationList1 = getPitStops(season, round, driverId1, pitStopDurationList1)
-        pitStopDurationList2 = getPitStops(season, round, driverId2, pitStopDurationList2)
-
-
-        binding.textRace.setOnClickListener(
-            selectRace()
-        )
-
-        binding.textDriver1.setOnClickListener(
-            selectDriver()
-        )
-
-        binding.textDriver2.setOnClickListener(
-            selectDriver()
-        )
-
-
+        binding.buttonCompare.setOnClickListener {
+            Log.e(
+                "All data",
+                "season $season, round $round, driver1 $driverId1, driver2 $driverId2"
+            )
+        }
         return binding.root
     }
 
-    private fun selectDriver(): View.OnClickListener? {
-//        Log.e("SelectDriver", "Start")
+    private fun populateDrivers() {
+        val raceNames = ArrayList(drivers.nameList)
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, raceNames)
+        (binding.selectDriver1.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        binding.selectDriver1List.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, i, l -> onDriver1Selected() }
+
+        (binding.selectDriver2.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        binding.selectDriver2List.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, i, l -> onDriver2Selected() }
+    }
+
+    private fun onDriver1Selected() {
+        driverId1 = drivers.getIdByName(binding.selectDriver1.editText?.text.toString())
+
+    }
+
+    private fun onDriver2Selected() {
+        driverId2 = drivers.getIdByName(binding.selectDriver2.editText?.text.toString())
+    }
+
+    private fun populateRaces() {
+        val raceNames = ArrayList(races.nameList)
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, raceNames)
+        (binding.selectRace.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        binding.selectRaceList.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, i, l -> onRaceSelected() }
+    }
+
+    private fun populateSeasons() {
+        val listSeasons = mutableListOf<String>()
+        for (i in 2011..Calendar.getInstance().get(Calendar.YEAR)) {
+            listSeasons.add("$i")
+        }
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, listSeasons)
+        (binding.selectSeason.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        binding.selectSeasonList.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, i, l ->
+                onSeasonSelected()
+            }
+    }
+
+    private fun onRaceSelected() {
+        round = races.getIdByName(binding.selectRace.editText?.text.toString())
         getDrivers(season, round)
-        return Navigation.createNavigateOnClickListener(
-            R.id.action_homeFragment_to_selectFragment,
-            bundleDrivers
-        )
     }
 
-    private fun selectRace(): View.OnClickListener? {
-//        Log.e("SelectRace", "Start")
+    private fun onSeasonSelected() {
+        season = binding.selectSeason.editText?.text.toString()
         getRaces(season)
-        return Navigation.createNavigateOnClickListener(
-            R.id.action_homeFragment_to_selectFragment,
-            bundleRaces
-        )
     }
-
-    // TODO convert the function to return an list of objects
 
 
     private fun getPitStops(
@@ -107,11 +122,6 @@ class HomeFragment : Fragment() {
                     call: Call<ResponsePitStops>,
                     response: Response<ResponsePitStops>
                 ) {
-//                    Log.e(
-//                        "pitStopRESPONSE $driverId",
-//                        response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getPitStopDurationList()
-//                            .toString()
-//                    )
                     pitStopDurationList.addAll(response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getPitStopDurationList())
                 }
 
@@ -131,40 +141,27 @@ class HomeFragment : Fragment() {
                     call: Call<ResponseDrivers>,
                     response: Response<ResponseDrivers>
                 ) {
-//                    Log.e(
-//                        "driversResponse",
-//                        response.body()!!.MRDataDrivers.DriverTable.getDriverNameList().toString()
-//                    )
-
-                    driversNameList =
-                        response.body()!!.MRDataDrivers.DriverTable.getDriverNameList() as ArrayList<SelectListData>
-                    bundleDrivers.putParcelableArrayList("list", driversNameList)
+                    drivers =
+                        response.body()!!.MRDataDrivers.DriverTable.getDriverNameList()
+                    populateDrivers()
                 }
 
                 override fun onFailure(call: Call<ResponseDrivers>, t: Throwable) {
                     t.message?.let { Log.e("driversFAILURE", it) }
                 }
-
             })
     }
 
     private fun getRaces(season: String) {
         ErgastApi.retrofitService.getRaces(season).enqueue(object : Callback<ResponseRaces> {
             override fun onResponse(call: Call<ResponseRaces>, response: Response<ResponseRaces>) {
-//                Log.e("racesRESPONSE", response.body().toString())
-//                Log.e("racesName", response.body()!!.MRData.RaceTable.getRaceNameList().toString())
-
-                racesNameList =
-                    response.body()!!.MRData.RaceTable.getRaceNameList() as ArrayList<SelectListData>
-                bundleRaces.putParcelableArrayList("list", racesNameList)
-
+                races = response.body()!!.MRData.RaceTable.getRaceIdNameCollection()
+                populateRaces()
             }
 
             override fun onFailure(call: Call<ResponseRaces>, t: Throwable) {
                 t.message?.let { Log.e("racesFAILURE", it) }
             }
-
         })
     }
-
 }
