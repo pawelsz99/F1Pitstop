@@ -39,7 +39,7 @@ class HomeFragment : Fragment() {
     private lateinit var round: String
     private lateinit var driverId1: String
     private lateinit var driverId2: String
-    val bundle = Bundle()
+    private val bundle = Bundle()
 
     private lateinit var binding: FragmentHomeBinding
 
@@ -76,6 +76,8 @@ class HomeFragment : Fragment() {
     private fun packDataUpInBundle() {
         bundle.putString("season", season)
         bundle.putString("raceName", races.getNameById(round))
+        bundle.putString("driver1Name", drivers.getNameById(driverId1))
+        bundle.putString("driver2Name", drivers.getNameById(driverId2))
         bundle.putParcelable("driver1PitStop", driver1PitStops)
         bundle.putParcelable("driver2PitStop", driver2PitStops)
 

@@ -9,22 +9,20 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.pawelsznuradev.f1pitstop.databinding.FragmentResultBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
 private const val seasonKey = "season"
 private const val raceNameKey = "raceName"
+private const val driver1NameKey = "driver1Name"
+private const val driver2NameKey = "driver2Name"
 private const val driver1PitStopsKey = "driver1PitStop"
 private const val driver2PitStopsKey = "driver2PitStop"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ResultFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class ResultFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var season: String? = null
     private var raceName: String? = null
+    private var driver1Name: String? = null
+    private var driver2Name: String? = null
     lateinit var driver1PitStops: DriverPitStops
     lateinit var driver2PitStops: DriverPitStops
 
@@ -32,12 +30,14 @@ class ResultFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             season = it.getString(seasonKey)
-            raceName = it.getString(com.pawelsznuradev.f1pitstop.raceNameKey)
+            raceName = it.getString(raceNameKey)
+            driver1Name = it.getString(driver1NameKey)
+            driver2Name = it.getString(driver2NameKey)
             driver1PitStops = it.getParcelable(driver1PitStopsKey)!!
             driver2PitStops = it.getParcelable(driver2PitStopsKey)!!
         }
         activity?.title = "$season $raceName"
-        Log.e("onCreate", "driver1 = ${driver1PitStops.driverId}, driver2 = ${driver2PitStops.driverId}")
+
     }
 
     override fun onCreateView(
@@ -52,23 +52,24 @@ class ResultFragment : Fragment() {
         return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ResultFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ResultFragment().apply {
-                arguments = Bundle().apply {
-                    putString(com.pawelsznuradev.f1pitstop.seasonKey, param1)
-                    putString(com.pawelsznuradev.f1pitstop.raceNameKey, param2)
-                }
-            }
-    }
+
+//    companion object {
+//        /**
+//         * Use this factory method to create a new instance of
+//         * this fragment using the provided parameters.
+//         *
+//         * @param param1 Parameter 1.
+//         * @param param2 Parameter 2.
+//         * @return A new instance of fragment ResultFragment.
+//         */
+//        // TODO: Rename and change types and number of parameters
+//        @JvmStatic
+//        fun newInstance(param1: String, param2: String) =
+//            ResultFragment().apply {
+//                arguments = Bundle().apply {
+//                    putString(com.pawelsznuradev.f1pitstop.seasonKey, param1)
+//                    putString(com.pawelsznuradev.f1pitstop.raceNameKey, param2)
+//                }
+//            }
+//    }
 }
