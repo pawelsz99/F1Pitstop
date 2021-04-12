@@ -89,7 +89,6 @@ data class DriverTable(
         }
         return IdNameCollection(driversIdList, driversNameList)
     }
-
 }
 
 data class Drivers(
@@ -135,13 +134,6 @@ data class Races2(
     val time: String,
     val PitStops: List<PitStops>
 ) {
-//    fun getPitStopDurationList(): MutableList<String> {
-//        val pitStopDurationList: MutableList<String> = mutableListOf()
-//        PitStops.forEach {
-//            pitStopDurationList.add("${it.duration} ")
-//        }
-//        return pitStopDurationList
-//    }
     fun getDriverPitStops(): DriverPitStops {
         val driverId = PitStops[0].driverId
         val stop = mutableListOf<String>()

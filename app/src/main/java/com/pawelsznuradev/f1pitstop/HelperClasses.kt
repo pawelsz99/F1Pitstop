@@ -16,6 +16,12 @@ data class IdNameCollection(val idList: List<String>, val nameList: List<String>
     }
 }
 
-data class DriverPitStops(val driverId : String, val stop: List<String>, val lap: List<String>, val time: List<String>, val duration: List<String> ) {
+data class DriverPitStops(
+    val driverId: String,
+    val stop: List<String>,
+    val lap: List<String>,
+    val time: List<String>,
+    val duration: List<String>
+) {
 
 }

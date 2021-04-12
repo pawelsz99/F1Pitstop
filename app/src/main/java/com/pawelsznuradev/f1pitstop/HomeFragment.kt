@@ -10,6 +10,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.pawelsznuradev.f1pitstop.databinding.FragmentHomeBinding
 import com.pawelsznuradev.f1pitstop.network.ErgastApi
 import com.pawelsznuradev.f1pitstop.network.ResponseDrivers
@@ -50,19 +52,39 @@ class HomeFragment : Fragment() {
 
         populateSeasons()
 
-        binding.buttonCompare.setOnClickListener {
+//        binding.buttonCompare.setOnClickListener {
+//            Log.e(
+//                "All data",
+//                "season $season, round $round, driver1 $driverId1, driver2 $driverId2"
+//            )
+//            Log.e("PitStop1", driver1PitStops.toString())
+//            Log.e("PitStop2", driver2PitStops.toString())
+//
+//            packDataUpInBundle()
+//
+//            ResultFragment.newInstance("test1", "test2")
+//
+//            Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_resultFragment)
+//        }
 
-            Log.e(
-                "All data",
-                "season $season, round $round, driver1 $driverId1, driver2 $driverId2"
+        binding.buttonCompare.setOnClickListener(
+            Navigation.createNavigateOnClickListener(
+                R.id.action_homeFragment_to_resultFragment,
+                bundle
             )
-            Log.e("PitStop1", driver1PitStops.toString())
-            Log.e("PitStop2", driver2PitStops.toString())
+        )
 
-        }
         return binding.root
     }
 
+    private fun packDataUpInBundle() {
+        // season, race name, driver1pitstops, driver2pitstops
+        bundle.putString("season", season)
+        bundle.putString("raceName", races.getNameById(round))
+
+
+
+    }
 
 
     private fun populateDrivers() {
@@ -86,6 +108,7 @@ class HomeFragment : Fragment() {
     private fun onDriver2Selected() {
         driverId2 = drivers.getIdByName(binding.selectDriver2.editText?.text.toString())
         getPitStops(season, round, driverId2)
+        packDataUpInBundle()
     }
 
     private fun populateRaces() {
