@@ -1,6 +1,7 @@
 package com.pawelsznuradev.f1pitstop
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,10 @@ import com.pawelsznuradev.f1pitstop.databinding.FragmentResultBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val seasonKey = "season"
+private const val raceNameKey = "raceName"
+private const val driver1PitStopsKey = "driver1PitStop"
+private const val driver2PitStopsKey = "driver2PitStop"
 
 /**
  * A simple [Fragment] subclass.
@@ -20,15 +23,21 @@ private const val ARG_PARAM2 = "param2"
  */
 class ResultFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var season: String? = null
+    private var raceName: String? = null
+    lateinit var driver1PitStops: DriverPitStops
+    lateinit var driver2PitStops: DriverPitStops
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            season = it.getString(seasonKey)
+            raceName = it.getString(com.pawelsznuradev.f1pitstop.raceNameKey)
+            driver1PitStops = it.getParcelable(driver1PitStopsKey)!!
+            driver2PitStops = it.getParcelable(driver2PitStopsKey)!!
         }
+        activity?.title = "$season $raceName"
+        Log.e("onCreate", "driver1 = ${driver1PitStops.driverId}, driver2 = ${driver2PitStops.driverId}")
     }
 
     override fun onCreateView(
@@ -38,6 +47,8 @@ class ResultFragment : Fragment() {
         // Inflate the layout for this fragment
         val binding: FragmentResultBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_result, container, false)
+
+
         return binding.root
     }
 
@@ -55,8 +66,8 @@ class ResultFragment : Fragment() {
         fun newInstance(param1: String, param2: String) =
             ResultFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString(com.pawelsznuradev.f1pitstop.seasonKey, param1)
+                    putString(com.pawelsznuradev.f1pitstop.raceNameKey, param2)
                 }
             }
     }
