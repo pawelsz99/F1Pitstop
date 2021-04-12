@@ -29,6 +29,8 @@ class HomeFragment : Fragment() {
 
     lateinit var races: IdNameCollection
     lateinit var drivers: IdNameCollection
+    lateinit var driver1PitStops: DriverPitStops
+    lateinit var driver2PitStops: DriverPitStops
 
     private lateinit var season: String
     private lateinit var round: String
@@ -49,13 +51,19 @@ class HomeFragment : Fragment() {
         populateSeasons()
 
         binding.buttonCompare.setOnClickListener {
+
             Log.e(
                 "All data",
                 "season $season, round $round, driver1 $driverId1, driver2 $driverId2"
             )
+            Log.e("PitStop1", driver1PitStops.toString())
+            Log.e("PitStop2", driver2PitStops.toString())
+
         }
         return binding.root
     }
+
+
 
     private fun populateDrivers() {
         val raceNames = ArrayList(drivers.nameList)
@@ -71,11 +79,13 @@ class HomeFragment : Fragment() {
 
     private fun onDriver1Selected() {
         driverId1 = drivers.getIdByName(binding.selectDriver1.editText?.text.toString())
+        getPitStops(season, round, driverId1)
 
     }
 
     private fun onDriver2Selected() {
         driverId2 = drivers.getIdByName(binding.selectDriver2.editText?.text.toString())
+        getPitStops(season, round, driverId2)
     }
 
     private fun populateRaces() {
@@ -110,28 +120,26 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun getPitStops(
-        season: String,
-        round: String,
-        driverId: String,
-        pitStopDurationList: MutableList<String>
-    ): MutableList<String> {
+    private fun getPitStops(season: String, round: String, driverId: String) {
         ErgastApi.retrofitService.getPitStops(season, round, driverId)
             .enqueue(object : Callback<ResponsePitStops> {
                 override fun onResponse(
                     call: Call<ResponsePitStops>,
                     response: Response<ResponsePitStops>
                 ) {
-                    pitStopDurationList.addAll(response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getPitStopDurationList())
+                    if (driverId == driverId1) {
+                        driver1PitStops =
+                            response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getDriverPitStops()
+                    } else {
+                        driver2PitStops =
+                            response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getDriverPitStops()
+                    }
                 }
 
                 override fun onFailure(call: Call<ResponsePitStops>, t: Throwable) {
                     t.message?.let { Log.e("pitStopFAILURE", it) }
                 }
-
             })
-
-        return pitStopDurationList
     }
 
     private fun getDrivers(season: String, round: String) {
@@ -142,7 +150,7 @@ class HomeFragment : Fragment() {
                     response: Response<ResponseDrivers>
                 ) {
                     drivers =
-                        response.body()!!.MRDataDrivers.DriverTable.getDriverNameList()
+                        response.body()!!.MRDataDrivers.DriverTable.getDriverIdNameCollection()
                     populateDrivers()
                 }
 
