@@ -22,6 +22,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.absoluteValue
 
 
 /**
@@ -42,6 +43,16 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.title = resources.getString(R.string.app_name)
+        populateSeasons()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,21 +62,6 @@ class HomeFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         populateSeasons()
-
-//        binding.buttonCompare.setOnClickListener {
-//            Log.e(
-//                "All data",
-//                "season $season, round $round, driver1 $driverId1, driver2 $driverId2"
-//            )
-//            Log.e("PitStop1", driver1PitStops.toString())
-//            Log.e("PitStop2", driver2PitStops.toString())
-//
-//            packDataUpInBundle()
-//
-//            ResultFragment.newInstance("test1", "test2")
-//
-//            Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_resultFragment)
-//        }
 
         binding.buttonCompare.setOnClickListener(
             Navigation.createNavigateOnClickListener(
@@ -78,11 +74,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun packDataUpInBundle() {
-        // season, race name, driver1pitstops, driver2pitstops
         bundle.putString("season", season)
         bundle.putString("raceName", races.getNameById(round))
-
-
+        bundle.putParcelable("driver1PitStop", driver1PitStops)
+        bundle.putParcelable("driver2PitStop", driver2PitStops)
 
     }
 
@@ -108,7 +103,7 @@ class HomeFragment : Fragment() {
     private fun onDriver2Selected() {
         driverId2 = drivers.getIdByName(binding.selectDriver2.editText?.text.toString())
         getPitStops(season, round, driverId2)
-        packDataUpInBundle()
+
     }
 
     private fun populateRaces() {
@@ -153,9 +148,11 @@ class HomeFragment : Fragment() {
                     if (driverId == driverId1) {
                         driver1PitStops =
                             response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getDriverPitStops()
+
                     } else {
                         driver2PitStops =
                             response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getDriverPitStops()
+                        packDataUpInBundle()
                     }
                 }
 
@@ -175,6 +172,7 @@ class HomeFragment : Fragment() {
                     drivers =
                         response.body()!!.MRDataDrivers.DriverTable.getDriverIdNameCollection()
                     populateDrivers()
+
                 }
 
                 override fun onFailure(call: Call<ResponseDrivers>, t: Throwable) {

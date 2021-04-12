@@ -3,6 +3,7 @@ package com.pawelsznuradev.f1pitstop.network
 import com.google.gson.annotations.SerializedName
 import com.pawelsznuradev.f1pitstop.DriverPitStops
 import com.pawelsznuradev.f1pitstop.IdNameCollection
+import java.util.ArrayList
 
 data class ResponseRaces(
     val MRData: MRDataRaces
@@ -146,7 +147,13 @@ data class Races2(
             time.add(it.time)
             duration.add(it.duration)
         }
-        return DriverPitStops(driverId, stop, lap, time, duration)
+        return DriverPitStops(
+            driverId,
+            stop as ArrayList<String>,
+            lap as ArrayList<String>,
+            time as ArrayList<String>,
+            duration as ArrayList<String>
+        )
     }
 }
 
