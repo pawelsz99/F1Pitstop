@@ -59,3 +59,9 @@ data class DriverPitStops(
     }
 
 }
+
+data class ResultData(val pos1: String, val pos2: String, val pos3: String){
+    constructor(pos1: String): this(pos1, "", "")
+    constructor(pos1: String, pos2: String): this(pos1, pos2, "")
+
+}

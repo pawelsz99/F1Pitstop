@@ -13,7 +13,7 @@ import com.pawelsznuradev.f1pitstop.dummy.DummyContent.DummyItem
  * TODO: Replace the implementation with code for your data type.
  */
 class MyTestItemRecyclerViewAdapter(
-    private val values: List<DummyItem>
+    private val values: List<ResultData>
 ) : RecyclerView.Adapter<MyTestItemRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,8 +24,9 @@ class MyTestItemRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
+        holder.idView.text = item.pos1
+        holder.contentView.text = item.pos2
+        holder.contentView2.text = item.pos3
     }
 
     override fun getItemCount(): Int = values.size
@@ -33,6 +34,7 @@ class MyTestItemRecyclerViewAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val idView: TextView = view.findViewById(R.id.item_number)
         val contentView: TextView = view.findViewById(R.id.content)
+        val contentView2: TextView = view.findViewById(R.id.content2)
 
         override fun toString(): String {
             return super.toString() + " '" + contentView.text + "'"

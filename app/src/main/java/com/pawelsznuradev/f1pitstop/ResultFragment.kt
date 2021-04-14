@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import com.pawelsznuradev.f1pitstop.databinding.FragmentResultBinding
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.pawelsznuradev.f1pitstop.dummy.DummyContent
 
 
 private const val seasonKey = "season"
@@ -25,6 +27,8 @@ class ResultFragment : Fragment() {
     private var driver2Name: String? = null
     lateinit var driver1PitStops: DriverPitStops
     lateinit var driver2PitStops: DriverPitStops
+
+    private var columnCount = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,31 +49,39 @@ class ResultFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding: FragmentResultBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_result, container, false)
+        val view = inflater.inflate(R.layout.fragment_result, container, false)
 
-
-        return binding.root
+        // Set the adapter
+        if (view is RecyclerView) {
+            with(view) {
+                layoutManager = when {
+                    columnCount <= 1 -> LinearLayoutManager(context)
+                    else -> GridLayoutManager(context, columnCount)
+                }
+//                adapter = MyTestItemRecyclerViewAdapter
+            }
+        }
+        return view
     }
 
 
-//    companion object {
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param param1 Parameter 1.
-//         * @param param2 Parameter 2.
-//         * @return A new instance of fragment ResultFragment.
-//         */
-//        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            ResultFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(com.pawelsznuradev.f1pitstop.seasonKey, param1)
-//                    putString(com.pawelsznuradev.f1pitstop.raceNameKey, param2)
-//                }
-//            }
-//    }
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment ResultFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            ResultFragment().apply {
+                arguments = Bundle().apply {
+                    putString(com.pawelsznuradev.f1pitstop.seasonKey, param1)
+                    putString(com.pawelsznuradev.f1pitstop.raceNameKey, param2)
+                }
+            }
+    }
 }

@@ -36,7 +36,7 @@ object DummyContent {
     }
 
     private fun createDummyItem(position: Int): DummyItem {
-        return DummyItem(position.toString(), "Item $position", makeDetails(position))
+        return DummyItem(position.toString(), "Item $position", "Item details")
     }
 
     private fun makeDetails(position: Int): String {

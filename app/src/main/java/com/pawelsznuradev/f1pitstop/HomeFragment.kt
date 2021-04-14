@@ -70,6 +70,13 @@ class HomeFragment : Fragment() {
             )
         )
 
+        binding.buttonCompare2.setOnClickListener(
+            Navigation.createNavigateOnClickListener(
+                R.id.action_homeFragment_to_testItemFragment,
+                bundle
+            )
+        )
+
         return binding.root
     }
 
