@@ -12,9 +12,17 @@
         <action
             android:id="@+id/action_homeFragment_to_resultFragment"
             app:destination="@id/resultFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_testItemFragment"
+            app:destination="@id/testItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
         android:name="com.pawelsznuradev.f1pitstop.ResultFragment"
         android:label="ResultFragment" />
+    <fragment
+        android:id="@+id/testItemFragment"
+        android:name="com.pawelsznuradev.f1pitstop.ResultFragment"
+        android:label="fragment_test_item_list"
+        tools:layout="@layout/fragment_result_list" />
 </navigation>
