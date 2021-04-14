@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import com.pawelsznuradev.f1pitstop.databinding.FragmentHomeBinding
 import com.pawelsznuradev.f1pitstop.network.ErgastApi
 import com.pawelsznuradev.f1pitstop.network.ResponseDrivers
@@ -22,7 +21,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.absoluteValue
 
 
 /**
@@ -63,14 +61,8 @@ class HomeFragment : Fragment() {
 
         populateSeasons()
 
-        binding.buttonCompare.setOnClickListener(
-            Navigation.createNavigateOnClickListener(
-                R.id.action_homeFragment_to_resultFragment,
-                bundle
-            )
-        )
 
-        binding.buttonCompare2.setOnClickListener(
+        binding.buttonCompare.setOnClickListener(
             Navigation.createNavigateOnClickListener(
                 R.id.action_homeFragment_to_testItemFragment,
                 bundle
@@ -93,7 +85,7 @@ class HomeFragment : Fragment() {
 
     private fun populateDrivers() {
         val raceNames = ArrayList(drivers.nameList)
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, raceNames)
+        val adapter = ArrayAdapter(requireContext(), R.layout.home_list_item, raceNames)
         (binding.selectDriver1.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         binding.selectDriver1List.onItemClickListener =
             AdapterView.OnItemClickListener { adapterView, view, i, l -> onDriver1Selected() }
@@ -117,7 +109,7 @@ class HomeFragment : Fragment() {
 
     private fun populateRaces() {
         val raceNames = ArrayList(races.nameList)
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, raceNames)
+        val adapter = ArrayAdapter(requireContext(), R.layout.home_list_item, raceNames)
         (binding.selectRace.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         binding.selectRaceList.onItemClickListener =
             AdapterView.OnItemClickListener { adapterView, view, i, l -> onRaceSelected() }
@@ -128,7 +120,7 @@ class HomeFragment : Fragment() {
         for (i in 2011..Calendar.getInstance().get(Calendar.YEAR)) {
             listSeasons.add("$i")
         }
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, listSeasons)
+        val adapter = ArrayAdapter(requireContext(), R.layout.home_list_item, listSeasons)
         (binding.selectSeason.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         binding.selectSeasonList.onItemClickListener =
             AdapterView.OnItemClickListener { adapterView, view, i, l ->

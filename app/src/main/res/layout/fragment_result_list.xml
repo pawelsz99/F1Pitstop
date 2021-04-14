@@ -6,8 +6,9 @@
     android:name="com.pawelsznuradev.f1pitstop.TestItemFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".TestItemFragment"
-    tools:listitem="@layout/fragment_test_item" />
+    tools:context=".ResultFragment"
+    tools:listitem="@layout/fragment_result"/>
+<!--    android:layout_marginLeft="16dp"-->
+<!--    android:layout_marginRight="16dp"-->
+

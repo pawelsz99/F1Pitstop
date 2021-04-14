@@ -6,19 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
-import com.pawelsznuradev.f1pitstop.dummy.DummyContent.DummyItem
 
 /**
- * [RecyclerView.Adapter] that can display a [DummyItem].
+ * [RecyclerView.Adapter] that can display a [ResultData].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyTestItemRecyclerViewAdapter(
+class ResultRecyclerViewAdapter(
     private val values: List<ResultData>
-) : RecyclerView.Adapter<MyTestItemRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ResultRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_test_item, parent, false)
+            .inflate(R.layout.fragment_result, parent, false)
         return ViewHolder(view)
     }
 

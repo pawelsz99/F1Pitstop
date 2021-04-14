@@ -82,19 +82,10 @@
             android:id="@+id/button_compare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="result"
+            android:text="@string/button_compare"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/select_driver2" />
-
-        <Button
-            android:id="@+id/button_compare2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/test"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_compare" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,7 +22,7 @@
         android:label="ResultFragment" />
     <fragment
         android:id="@+id/testItemFragment"
-        android:name="com.pawelsznuradev.f1pitstop.TestItemFragment"
+        android:name="com.pawelsznuradev.f1pitstop.ResultFragment"
         android:label="fragment_test_item_list"
-        tools:layout="@layout/fragment_test_item_list" />
+        tools:layout="@layout/fragment_result_list" />
 </navigation>

@@ -1,26 +1,20 @@
 package com.pawelsznuradev.f1pitstop
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.pawelsznuradev.f1pitstop.dummy.DummyContent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 
 
-private const val seasonKey = "season"
-private const val raceNameKey = "raceName"
-private const val driver1NameKey = "driver1Name"
-private const val driver2NameKey = "driver2Name"
-private const val driver1PitStopsKey = "driver1PitStop"
-private const val driver2PitStopsKey = "driver2PitStop"
-
-
+/**
+ * A fragment representing a list of Items.
+ */
 class ResultFragment : Fragment() {
+
     private var season: String? = null
     private var raceName: String? = null
     private var driver1Name: String? = null
@@ -28,10 +22,13 @@ class ResultFragment : Fragment() {
     lateinit var driver1PitStops: DriverPitStops
     lateinit var driver2PitStops: DriverPitStops
 
+    private val resultList = mutableListOf<ResultData>()
+
     private var columnCount = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         arguments?.let {
             season = it.getString(seasonKey)
             raceName = it.getString(raceNameKey)
@@ -39,8 +36,10 @@ class ResultFragment : Fragment() {
             driver2Name = it.getString(driver2NameKey)
             driver1PitStops = it.getParcelable(driver1PitStopsKey)!!
             driver2PitStops = it.getParcelable(driver2PitStopsKey)!!
+            columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
         activity?.title = "$season $raceName"
+
 
     }
 
@@ -48,8 +47,9 @@ class ResultFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_result, container, false)
+        val view = inflater.inflate(R.layout.fragment_result_list, container, false)
+
+        populateResultList()
 
         // Set the adapter
         if (view is RecyclerView) {
@@ -58,29 +58,70 @@ class ResultFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-//                adapter = MyTestItemRecyclerViewAdapter
+                adapter = ResultRecyclerViewAdapter(resultList)
             }
         }
         return view
     }
 
+    private fun populateResultList() {
+        // name driver 1
+        resultList.add(ResultData(driver1Name!!))
+        resultList.add(ResultData("Stop", "Lap", "Duration"))
+        for (i in 0 until driver1PitStops.stop!!.size) {
+            resultList.add(
+                ResultData(
+                    driver1PitStops.stop!![i],
+                    driver1PitStops.lap!![i],
+                    driver1PitStops.duration!![i]
+                )
+            )
+        }
+
+        // name driver 2
+        resultList.add(ResultData(driver2Name!!))
+        resultList.add(ResultData("Stop", "Lap", "Duration"))
+        for (i in 0 until driver2PitStops.stop!!.size) {
+            resultList.add(
+                ResultData(
+                    driver2PitStops.stop!![i],
+                    driver2PitStops.lap!![i],
+                    driver2PitStops.duration!![i]
+                )
+            )
+        }
+
+        // difference
+        resultList.add(ResultData("Difference"))
+        resultList.add(ResultData("Stop", "Lap", "Duration"))
+        for (i in 0 until driver1PitStops.stop!!.size) {
+            resultList.add(
+                ResultData(
+                    driver1PitStops.stop!![i],
+                    ""
+//                    (driver1PitStops.duration!![i].toFloat() - driver2PitStops.duration!![i].toFloat()).toString()
+                )
+            )
+        }
+    }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ResultFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+
+        // TODO: Customize parameter argument names
+        const val ARG_COLUMN_COUNT = "column-count"
+        private const val seasonKey = "season"
+        private const val raceNameKey = "raceName"
+        private const val driver1NameKey = "driver1Name"
+        private const val driver2NameKey = "driver2Name"
+        private const val driver1PitStopsKey = "driver1PitStop"
+        private const val driver2PitStopsKey = "driver2PitStop"
+
+        // TODO: Customize parameter initialization
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(columnCount: Int) =
             ResultFragment().apply {
                 arguments = Bundle().apply {
-                    putString(com.pawelsznuradev.f1pitstop.seasonKey, param1)
-                    putString(com.pawelsznuradev.f1pitstop.raceNameKey, param2)
+                    putInt(ARG_COLUMN_COUNT, columnCount)
                 }
             }
     }
