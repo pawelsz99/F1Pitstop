@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.pawelsznuradev.f1pitstop.databinding.FragmentHomeBinding
 import com.pawelsznuradev.f1pitstop.network.ErgastApi
 import com.pawelsznuradev.f1pitstop.network.ResponseDrivers
@@ -62,12 +63,9 @@ class HomeFragment : Fragment() {
         populateSeasons()
 
 
-        binding.buttonCompare.setOnClickListener(
-            Navigation.createNavigateOnClickListener(
-                R.id.action_homeFragment_to_testItemFragment,
-                bundle
-            )
-        )
+        binding.buttonCompare.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_resultFragment, bundle)
+        }
 
         return binding.root
     }

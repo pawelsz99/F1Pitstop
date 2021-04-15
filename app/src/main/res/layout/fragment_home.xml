@@ -87,6 +87,7 @@
             android:fontFamily="@font/roboto"
             android:text="@string/button_compare"
             android:textColor="@color/white"
+            style="@style/FontSizeMedium"
             app:backgroundTint="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
