@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/select_season"
             app:boxBackgroundColor="@color/white"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:enabled="true">
 
             <AutoCompleteTextView
                 android:id="@+id/select_season_list"
@@ -33,7 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/select_race"
-            app:layout_constraintTop_toBottomOf="@+id/select_season">
+            app:layout_constraintTop_toBottomOf="@+id/select_season"
+            android:enabled="false">
 
             <AutoCompleteTextView
                 android:id="@+id/select_race_list"
@@ -50,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/select_driver1"
-            app:layout_constraintTop_toBottomOf="@+id/select_race">
+            app:layout_constraintTop_toBottomOf="@+id/select_race"
+            android:enabled="false">
 
             <AutoCompleteTextView
                 android:id="@+id/select_driver1_list"
@@ -67,7 +70,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/select_driver2"
-            app:layout_constraintTop_toBottomOf="@+id/select_driver1">
+            app:layout_constraintTop_toBottomOf="@+id/select_driver1"
+            android:enabled="false">
 
             <AutoCompleteTextView
                 android:id="@+id/select_driver2_list"
@@ -91,7 +95,8 @@
             app:backgroundTint="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/select_driver2" />
+            app:layout_constraintTop_toBottomOf="@+id/select_driver2"
+            android:enabled="false"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

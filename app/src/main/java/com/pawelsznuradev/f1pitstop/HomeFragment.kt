@@ -23,9 +23,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-/**
- * A simple [Fragment] subclass.
- */
 class HomeFragment : Fragment() {
 
     lateinit var races: IdNameCollection
@@ -45,10 +42,20 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+
     override fun onResume() {
         super.onResume()
+        enableAllSelectFields()
         activity?.title = resources.getString(R.string.app_name)
         populateSeasons()
+    }
+
+    private fun enableAllSelectFields() {
+        if (binding.selectRace.editText?.text.toString() != "") {
+            populateRaces()
+            populateDrivers()
+            populateDrivers2()
+        }
     }
 
     override fun onCreateView(
@@ -70,6 +77,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun packDataUpInBundle() {
+        binding.buttonCompare.isEnabled = true
+
         bundle.putString("season", season)
         bundle.putString("raceName", races.getNameById(round))
         bundle.putString("driver1Name", drivers.getNameById(driverId1))
@@ -79,10 +88,14 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun populateDrivers2(driver1Id: String?) {
+    private fun populateDrivers2() {
+        binding.selectDriver2.isEnabled = true
+
+
         // removing the first driver from list to be displayed
+        val driver1Id = driver1PitStops.driverId.toString()
         val raceNames = ArrayList(drivers.nameList)
-        raceNames.remove(driver1Id?.let { drivers.getNameById(it) })
+        raceNames.remove(drivers.getNameById(driver1Id))
         val adapter = ArrayAdapter(requireContext(), R.layout.home_list_item, raceNames)
 
         (binding.selectDriver2.editText as? AutoCompleteTextView)?.setAdapter(adapter)
@@ -91,7 +104,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun populateDrivers() {
+        binding.selectDriver1.isEnabled = true
+
         val raceNames = ArrayList(drivers.nameList)
+        // if the 2. driver is already selected then remove him from the list
+        if (this::driver2PitStops.isInitialized) {
+            val driver2Id = driver2PitStops.driverId.toString()
+            raceNames.remove(drivers.getNameById(driver2Id))
+        }
+
         val adapter = ArrayAdapter(requireContext(), R.layout.home_list_item, raceNames)
         (binding.selectDriver1.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         binding.selectDriver1List.onItemClickListener =
@@ -112,6 +133,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun populateRaces() {
+        binding.selectRace.isEnabled = true
+
         val raceNames = ArrayList(races.nameList)
         val adapter = ArrayAdapter(requireContext(), R.layout.home_list_item, raceNames)
         (binding.selectRace.editText as? AutoCompleteTextView)?.setAdapter(adapter)
@@ -153,7 +176,7 @@ class HomeFragment : Fragment() {
                     if (driverId == driverId1) {
                         driver1PitStops =
                             response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getDriverPitStops()
-                        populateDrivers2(driver1PitStops.driverId)
+                        populateDrivers2()
 
                     } else {
                         driver2PitStops =
