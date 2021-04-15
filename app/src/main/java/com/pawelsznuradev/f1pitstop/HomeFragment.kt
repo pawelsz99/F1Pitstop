@@ -10,7 +10,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.pawelsznuradev.f1pitstop.databinding.FragmentHomeBinding
 import com.pawelsznuradev.f1pitstop.network.ErgastApi
@@ -80,6 +79,16 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun populateDrivers2(driver1Id: String?) {
+        // removing the first driver from list to be displayed
+        val raceNames = ArrayList(drivers.nameList)
+        raceNames.remove(driver1Id?.let { drivers.getNameById(it) })
+        val adapter = ArrayAdapter(requireContext(), R.layout.home_list_item, raceNames)
+
+        (binding.selectDriver2.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        binding.selectDriver2List.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, i, l -> onDriver2Selected() }
+    }
 
     private fun populateDrivers() {
         val raceNames = ArrayList(drivers.nameList)
@@ -88,9 +97,6 @@ class HomeFragment : Fragment() {
         binding.selectDriver1List.onItemClickListener =
             AdapterView.OnItemClickListener { adapterView, view, i, l -> onDriver1Selected() }
 
-        (binding.selectDriver2.editText as? AutoCompleteTextView)?.setAdapter(adapter)
-        binding.selectDriver2List.onItemClickListener =
-            AdapterView.OnItemClickListener { adapterView, view, i, l -> onDriver2Selected() }
     }
 
     private fun onDriver1Selected() {
@@ -147,6 +153,7 @@ class HomeFragment : Fragment() {
                     if (driverId == driverId1) {
                         driver1PitStops =
                             response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getDriverPitStops()
+                        populateDrivers2(driver1PitStops.driverId)
 
                     } else {
                         driver2PitStops =
