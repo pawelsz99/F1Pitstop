@@ -14,11 +14,11 @@
             style="@style/homeSelect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="true"
+            android:focusable="false"
             android:hint="@string/select_season"
             app:boxBackgroundColor="@color/white"
-            app:layout_constraintTop_toTopOf="parent"
-            android:enabled="true"
-            android:focusable="false">
+            app:layout_constraintTop_toTopOf="parent">
 
             <AutoCompleteTextView
                 android:id="@+id/select_season_list"
@@ -34,9 +34,9 @@
             style="@style/homeSelect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:hint="@string/select_race"
-            app:layout_constraintTop_toBottomOf="@+id/select_season"
-            android:enabled="false">
+            app:layout_constraintTop_toBottomOf="@+id/select_season">
 
             <AutoCompleteTextView
                 android:id="@+id/select_race_list"
@@ -52,9 +52,9 @@
             style="@style/homeSelect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:hint="@string/select_driver1"
-            app:layout_constraintTop_toBottomOf="@+id/select_race"
-            android:enabled="false">
+            app:layout_constraintTop_toBottomOf="@+id/select_race">
 
             <AutoCompleteTextView
                 android:id="@+id/select_driver1_list"
@@ -70,9 +70,9 @@
             style="@style/homeSelect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:hint="@string/select_driver2"
-            app:layout_constraintTop_toBottomOf="@+id/select_driver1"
-            android:enabled="false">
+            app:layout_constraintTop_toBottomOf="@+id/select_driver1">
 
             <AutoCompleteTextView
                 android:id="@+id/select_driver2_list"
@@ -85,19 +85,19 @@
 
         <Button
             android:id="@+id/button_compare"
+            style="@style/FontSizeMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
             android:background="@color/grey"
+            android:enabled="false"
             android:fontFamily="@font/roboto"
             android:text="@string/button_compare"
             android:textColor="@color/white"
-            style="@style/FontSizeMedium"
             app:backgroundTint="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/select_driver2"
-            android:enabled="false"/>
+            app:layout_constraintTop_toBottomOf="@+id/select_driver2" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

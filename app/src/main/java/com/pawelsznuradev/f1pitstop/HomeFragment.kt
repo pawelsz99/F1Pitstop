@@ -55,6 +55,7 @@ class HomeFragment : Fragment() {
             populateRaces()
             populateDrivers()
             populateDrivers2()
+            binding.buttonCompare.isEnabled = true
         }
     }
 

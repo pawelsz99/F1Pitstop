@@ -10,17 +10,17 @@ import java.util.ArrayList
 data class IdNameCollection(val idList: List<String>, val nameList: List<String>) {
 
     fun getIdByName(name: String): String {
-        if (name in nameList) {
+        return if (name in nameList) {
             val position = nameList.indexOf(name)
-            return idList[position]
-        } else return ""
+            idList[position]
+        } else ""
     }
 
     fun getNameById(id: String): String {
-        if (id in idList) {
+        return if (id in idList) {
             val position = idList.indexOf(id)
-            return nameList[position]
-        } else return ""
+            nameList[position]
+        } else ""
     }
 }
 
