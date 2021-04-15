@@ -174,13 +174,37 @@ class HomeFragment : Fragment() {
                     response: Response<ResponsePitStops>
                 ) {
                     if (driverId == driverId1) {
+                        // if the driver has no pit stops then create an empty DriverPitStop object
                         driver1PitStops =
-                            response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getDriverPitStops()
+                            if (response.body()!!.MRDataPitStops.RaceTable2.Races2.isEmpty()) {
+                                DriverPitStops(
+                                    "",
+                                    ArrayList(),
+                                    ArrayList(),
+                                    ArrayList(),
+                                    ArrayList()
+                                )
+                            } else {
+                                response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getDriverPitStops()
+                            }
+
                         populateDrivers2()
 
                     } else {
+                        // if the driver has no pit stops then create an empty DriverPitStop object
                         driver2PitStops =
-                            response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getDriverPitStops()
+                            if (response.body()!!.MRDataPitStops.RaceTable2.Races2.isEmpty()) {
+                                DriverPitStops(
+                                    "",
+                                    ArrayList(),
+                                    ArrayList(),
+                                    ArrayList(),
+                                    ArrayList()
+                                )
+                            } else {
+                                response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getDriverPitStops()
+                            }
+
                         packDataUpInBundle()
                     }
                 }

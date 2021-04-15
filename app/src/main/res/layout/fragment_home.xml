@@ -17,7 +17,8 @@
             android:hint="@string/select_season"
             app:boxBackgroundColor="@color/white"
             app:layout_constraintTop_toTopOf="parent"
-            android:enabled="true">
+            android:enabled="true"
+            android:focusable="false">
 
             <AutoCompleteTextView
                 android:id="@+id/select_season_list"

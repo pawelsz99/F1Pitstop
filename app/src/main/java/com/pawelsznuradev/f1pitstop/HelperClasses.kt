@@ -10,13 +10,17 @@ import java.util.ArrayList
 data class IdNameCollection(val idList: List<String>, val nameList: List<String>) {
 
     fun getIdByName(name: String): String {
-        val position = nameList.indexOf(name)
-        return idList[position]
+        if (name in nameList) {
+            val position = nameList.indexOf(name)
+            return idList[position]
+        } else return ""
     }
 
     fun getNameById(id: String): String {
-        val position = idList.indexOf(id)
-        return nameList[position]
+        if (id in idList) {
+            val position = idList.indexOf(id)
+            return nameList[position]
+        } else return ""
     }
 }
 
@@ -60,8 +64,8 @@ data class DriverPitStops(
 
 }
 
-data class ResultData(val pos1: String, val pos2: String, val pos3: String){
-    constructor(pos1: String): this(pos1, "", "")
-    constructor(pos1: String, pos2: String): this(pos1, pos2, "")
+data class ResultData(val pos1: String, val pos2: String, val pos3: String) {
+    constructor(pos1: String) : this(pos1, "", "")
+    constructor(pos1: String, pos2: String) : this(pos1, pos2, "")
 
 }
