@@ -1,6 +1,7 @@
 package com.pawelsznuradev.f1pitstop
 
 import android.os.Bundle
+import android.text.format.DateUtils
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -102,10 +103,16 @@ class ResultFragment : Fragment() {
                     ResultData(
                         driver1PitStops.stop!![i],
                         "${driver1PitStops.lap!![i]} / ${driver2PitStops.lap!![i]}",
-                        "%.3f".format(driver1PitStops.duration!![i].toFloat() - driver2PitStops.duration!![i].toFloat())
+                        "%.3f".format(
+                            PitStopTime(driver1PitStops.duration!![i]).getTotalTime() - PitStopTime(
+                                driver2PitStops.duration!![i]
+                            ).getTotalTime()
+                        )
                     )
                 )
-                totalTime += driver1PitStops.duration!![i].toFloat() - driver2PitStops.duration!![i].toFloat()
+                totalTime += PitStopTime(driver1PitStops.duration!![i]).getTotalTime() - PitStopTime(
+                    driver2PitStops.duration!![i]
+                ).getTotalTime()
             }
             // total difference
             resultList.add(ResultData("Total", "", "%.3f".format(totalTime)))
@@ -116,7 +123,7 @@ class ResultFragment : Fragment() {
 
             var driver1PitStopsSumTime = 0.0
             for (num in driver1PitStops.duration!!) {
-                driver1PitStopsSumTime += num.toFloat()
+                driver1PitStopsSumTime += PitStopTime(num).getTotalTime()
             }
             val driver1PitStopsAverageTime =
                 driver1PitStopsSumTime / driver1PitStops.duration!!.size
@@ -124,7 +131,7 @@ class ResultFragment : Fragment() {
 
             var driver2PitStopsSumTime = 0.0
             for (num in driver2PitStops.duration!!) {
-                driver2PitStopsSumTime += num.toFloat()
+                driver2PitStopsSumTime += PitStopTime(num).getTotalTime()
             }
             val driver2PitStopsAverageTime =
                 driver2PitStopsSumTime / driver2PitStops.duration!!.size

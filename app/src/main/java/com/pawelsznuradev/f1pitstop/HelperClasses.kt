@@ -69,3 +69,15 @@ data class ResultData(val pos1: String, val pos2: String, val pos3: String) {
     constructor(pos1: String, pos2: String) : this(pos1, pos2, "")
 
 }
+
+data class PitStopTime(val timeString: String){
+    var minutes : Int = timeString.substringBefore(":", "0").toInt()
+    var seconds: Float = timeString.substringAfter(":", timeString).toFloat()
+
+    fun getTotalTime(): Float{
+        var total = 0.0
+        total += minutes * 60
+        total += seconds
+        return total.toFloat()
+    }
+}
