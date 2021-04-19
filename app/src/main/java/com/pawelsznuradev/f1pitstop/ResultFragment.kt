@@ -91,21 +91,12 @@ class ResultFragment : Fragment() {
             )
         }
 
-        // difference
-        resultList.add(ResultData("Difference"))
-        resultList.add(ResultData("Stop", "", "Duration"))
-
-        matchPitStops()
-
-
-        // total
-        resultList.add(ResultData("Total", "", "time total"))
-
-    }
-
-    private fun matchPitStops() {
         // if number of pit stops is equal
         if (driver1PitStops.stop!!.size == driver2PitStops.stop!!.size) {
+            // difference
+            resultList.add(ResultData("Difference"))
+            resultList.add(ResultData("Stop", "", "Duration"))
+            var totalTime = 0.0
             for (i in 0 until driver1PitStops.stop!!.size) {
                 resultList.add(
                     ResultData(
@@ -114,9 +105,45 @@ class ResultFragment : Fragment() {
                         "%.3f".format(driver1PitStops.duration!![i].toFloat() - driver2PitStops.duration!![i].toFloat())
                     )
                 )
+                totalTime += driver1PitStops.duration!![i].toFloat() - driver2PitStops.duration!![i].toFloat()
             }
+            // total difference
+            resultList.add(ResultData("Total", "", "%.3f".format(totalTime)))
+
+        } else { // if one of the drivers has more pit stops
+            // display the average time of pit stops
+            resultList.add(ResultData("Average pit stop time"))
+
+            var driver1PitStopsSumTime = 0.0
+            for (num in driver1PitStops.duration!!) {
+                driver1PitStopsSumTime += num.toFloat()
+            }
+            val driver1PitStopsAverageTime =
+                driver1PitStopsSumTime / driver1PitStops.duration!!.size
+            resultList.add(ResultData(driver1Name!!, "", "%.3f".format(driver1PitStopsAverageTime)))
+
+            var driver2PitStopsSumTime = 0.0
+            for (num in driver2PitStops.duration!!) {
+                driver2PitStopsSumTime += num.toFloat()
+            }
+            val driver2PitStopsAverageTime =
+                driver2PitStopsSumTime / driver2PitStops.duration!!.size
+            resultList.add(ResultData(driver2Name!!, "", "%.3f".format(driver2PitStopsAverageTime)))
+
+            // compare the difference
+            resultList.add(
+                ResultData(
+                    "Difference",
+                    "",
+                    "%.3f".format(driver1PitStopsAverageTime - driver2PitStopsAverageTime)
+                )
+            )
+
         }
+
+
     }
+
 
     companion object {
 
@@ -129,13 +156,13 @@ class ResultFragment : Fragment() {
         private const val driver1PitStopsKey = "driver1PitStop"
         private const val driver2PitStopsKey = "driver2PitStop"
 
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            ResultFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
+//        // TODO: Customize parameter initialization
+//        @JvmStatic
+//        fun newInstance(columnCount: Int) =
+//            ResultFragment().apply {
+//                arguments = Bundle().apply {
+//                    putInt(ARG_COLUMN_COUNT, columnCount)
+//                }
+//            }
     }
 }
