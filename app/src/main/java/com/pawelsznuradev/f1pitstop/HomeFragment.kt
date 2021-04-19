@@ -71,6 +71,7 @@ class HomeFragment : Fragment() {
 
 
         binding.buttonCompare.setOnClickListener {
+            packDataUpInBundle()
             findNavController().navigate(R.id.action_homeFragment_to_resultFragment, bundle)
         }
 
@@ -78,8 +79,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun packDataUpInBundle() {
-        binding.buttonCompare.isEnabled = true
-
         bundle.putString("season", season)
         bundle.putString("raceName", races.getNameById(round))
         bundle.putString("driver1Name", drivers.getNameById(driverId1))
@@ -130,6 +129,7 @@ class HomeFragment : Fragment() {
     private fun onDriver2Selected() {
         driverId2 = drivers.getIdByName(binding.selectDriver2.editText?.text.toString())
         getPitStops(season, round, driverId2)
+        binding.buttonCompare.isEnabled = true
 
     }
 
@@ -206,7 +206,7 @@ class HomeFragment : Fragment() {
                                 response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getDriverPitStops()
                             }
 
-                        packDataUpInBundle()
+//                        packDataUpInBundle()
                     }
                 }
 

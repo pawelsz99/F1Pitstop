@@ -93,15 +93,28 @@ class ResultFragment : Fragment() {
 
         // difference
         resultList.add(ResultData("Difference"))
-        resultList.add(ResultData("Stop", "Lap", "Duration"))
-        for (i in 0 until driver1PitStops.stop!!.size) {
-            resultList.add(
-                ResultData(
-                    driver1PitStops.stop!![i],
-                    ""
-//                    (driver1PitStops.duration!![i].toFloat() - driver2PitStops.duration!![i].toFloat()).toString()
+        resultList.add(ResultData("Stop", "", "Duration"))
+
+        matchPitStops()
+
+
+        // total
+        resultList.add(ResultData("Total", "", "time total"))
+
+    }
+
+    private fun matchPitStops() {
+        // if number of pit stops is equal
+        if (driver1PitStops.stop!!.size == driver2PitStops.stop!!.size) {
+            for (i in 0 until driver1PitStops.stop!!.size) {
+                resultList.add(
+                    ResultData(
+                        driver1PitStops.stop!![i],
+                        "${driver1PitStops.lap!![i]} / ${driver2PitStops.lap!![i]}",
+                        "%.3f".format(driver1PitStops.duration!![i].toFloat() - driver2PitStops.duration!![i].toFloat())
+                    )
                 )
-            )
+            }
         }
     }
 
