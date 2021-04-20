@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
     private fun enableAllSelectFields() {
         if (binding.selectRace.editText?.text.toString() != "") {
             populateRaces()
-            populateDrivers()
+            populateDrivers1()
             populateDrivers2()
             binding.buttonCompare.isEnabled = true
         }
@@ -67,7 +67,7 @@ class HomeFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
-        populateSeasons()
+//        populateSeasons()
 
 
         binding.buttonCompare.setOnClickListener {
@@ -78,7 +78,12 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
+
     private fun packDataUpInBundle() {
+//        Log.e("pack data", "season = $season, raceName  = ${races.getNameById(round)} ")
         bundle.putString("season", season)
         bundle.putString("raceName", races.getNameById(round))
         bundle.putString("driver1Name", drivers.getNameById(driverId1))
@@ -103,7 +108,7 @@ class HomeFragment : Fragment() {
             AdapterView.OnItemClickListener { adapterView, view, i, l -> onDriver2Selected() }
     }
 
-    private fun populateDrivers() {
+    private fun populateDrivers1() {
         binding.selectDriver1.isEnabled = true
 
         val raceNames = ArrayList(drivers.nameList)
@@ -143,6 +148,18 @@ class HomeFragment : Fragment() {
             AdapterView.OnItemClickListener { adapterView, view, i, l -> onRaceSelected() }
     }
 
+    private fun onRaceSelected() {
+        // clear the selection if there is any
+        if (!binding.selectDriver1.editText?.text.isNullOrBlank()) {
+            binding.selectDriver1.editText?.text?.clear()
+            binding.selectDriver2.editText?.text?.clear()
+            binding.selectDriver2.isEnabled = false
+        }
+
+        round = races.getIdByName(binding.selectRace.editText?.text.toString())
+        getDrivers(season, round)
+    }
+
     private fun populateSeasons() {
         val listSeasons = mutableListOf<String>()
         for (i in 2011..Calendar.getInstance().get(Calendar.YEAR)) {
@@ -156,12 +173,16 @@ class HomeFragment : Fragment() {
             }
     }
 
-    private fun onRaceSelected() {
-        round = races.getIdByName(binding.selectRace.editText?.text.toString())
-        getDrivers(season, round)
-    }
-
     private fun onSeasonSelected() {
+        // clear the selection if there is any
+        if (!binding.selectRace.editText?.text.isNullOrBlank()) {
+            binding.selectRace.editText?.text?.clear()
+            binding.selectDriver1.editText?.text?.clear()
+            binding.selectDriver1.isEnabled = false
+            binding.selectDriver2.editText?.text?.clear()
+            binding.selectDriver2.isEnabled = false
+        }
+
         season = binding.selectSeason.editText?.text.toString()
         getRaces(season)
     }
@@ -225,7 +246,7 @@ class HomeFragment : Fragment() {
                 ) {
                     drivers =
                         response.body()!!.MRDataDrivers.DriverTable.getDriverIdNameCollection()
-                    populateDrivers()
+                    populateDrivers1()
 
                 }
 

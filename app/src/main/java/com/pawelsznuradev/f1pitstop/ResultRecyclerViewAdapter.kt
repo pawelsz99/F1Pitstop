@@ -57,6 +57,7 @@ class ResultRecyclerViewAdapter(
         }
 
 
+
     }
 
     override fun getItemCount(): Int = values.size
