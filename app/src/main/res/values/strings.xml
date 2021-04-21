@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Formula 1 Pit Stop</string>
+    <string name="app_name">F1 Pit Stop</string>
     <string name="select_season">Season</string>
     <string name="select_race">Race</string>
     <string name="select_driver1">Driver No 1</string>
