@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.pawelsznuradev.f1pitstop.databinding.FragmentHomeBinding
@@ -90,6 +91,7 @@ class HomeFragment : Fragment() {
         bundle.putString("driver2Name", drivers.getNameById(driverId2))
         bundle.putParcelable("driver1PitStop", driver1PitStops)
         bundle.putParcelable("driver2PitStop", driver2PitStops)
+
 
     }
 
@@ -232,6 +234,7 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<ResponsePitStops>, t: Throwable) {
+                    Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show()
                     t.message?.let { Log.e("pitStopFAILURE", it) }
                 }
             })
@@ -251,6 +254,7 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<ResponseDrivers>, t: Throwable) {
+                    Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show()
                     t.message?.let { Log.e("driversFAILURE", it) }
                 }
             })
@@ -264,6 +268,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<ResponseRaces>, t: Throwable) {
+                Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show()
                 t.message?.let { Log.e("racesFAILURE", it) }
             }
         })

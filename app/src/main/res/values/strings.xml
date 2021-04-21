@@ -5,4 +5,5 @@
     <string name="select_driver1">Driver No 1</string>
     <string name="select_driver2">Driver No 2</string>
     <string name="button_compare">Compare</string>
+    <string name="no_internet">Cannot reach server. Please check your internet connection.</string>
 </resources>
