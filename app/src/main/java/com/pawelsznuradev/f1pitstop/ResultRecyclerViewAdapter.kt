@@ -15,7 +15,6 @@ import java.lang.NumberFormatException
 
 /**
  * [RecyclerView.Adapter] that can display a [ResultData].
- * TODO: Replace the implementation with code for your data type.
  */
 class ResultRecyclerViewAdapter(
     private val values: List<ResultData>
@@ -36,12 +35,14 @@ class ResultRecyclerViewAdapter(
 
         // driver name style
         if (item.pos2 == "" && item.pos3 == "") {
+//            Log.e("driver name style", "pos1 = ${holder.idView.text} pos2 = ${holder.contentView.text} pos3 = ${holder.contentView2.text}")
+//            Log.e("driver name style items", "pos1 = ${item.pos1} pos2 = ${item.pos2} pos3 = ${item.pos3}")
             holder.itemView.setBackgroundColor(Color.parseColor("#383840"))
             holder.idView.setTextColor(Color.WHITE)
         }
 
-        // total style
-        if (item.pos1 == "Total") {
+        // total and difference style
+        if (item.pos1 == "Total" || item.pos1 == "Difference") {
             holder.itemView.setBackgroundColor(Color.parseColor("#383840"))
             holder.idView.setTextColor(Color.WHITE)
             holder.contentView2.setTextColor(Color.WHITE)
@@ -55,7 +56,6 @@ class ResultRecyclerViewAdapter(
         } catch (e: NumberFormatException) {
             // do nothing
         }
-
 
 
     }

@@ -2,6 +2,7 @@ package com.pawelsznuradev.f1pitstop
 
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -125,16 +126,26 @@ class ResultFragment : Fragment() {
             for (num in driver1PitStops.duration!!) {
                 driver1PitStopsSumTime += PitStopTime(num).getTotalTime()
             }
-            val driver1PitStopsAverageTime =
-                driver1PitStopsSumTime / driver1PitStops.duration!!.size
+
+            // when the driver has no pit stops we cannot divide by 0
+            var driver1PitStopsAverageTime = driver1PitStopsSumTime
+            if (driver1PitStops.duration!!.size != 0) {
+                driver1PitStopsAverageTime =
+                    driver1PitStopsSumTime / driver1PitStops.duration!!.size
+            }
             resultList.add(ResultData(driver1Name!!, "", "%.3f".format(driver1PitStopsAverageTime)))
 
             var driver2PitStopsSumTime = 0.0
             for (num in driver2PitStops.duration!!) {
                 driver2PitStopsSumTime += PitStopTime(num).getTotalTime()
             }
-            val driver2PitStopsAverageTime =
-                driver2PitStopsSumTime / driver2PitStops.duration!!.size
+
+            // when the driver has no pit stops we cannot divide by 0
+            var driver2PitStopsAverageTime = driver2PitStopsSumTime
+            if (driver2PitStops.duration!!.size != 0) {
+                driver2PitStopsAverageTime =
+                    driver2PitStopsSumTime / driver2PitStops.duration!!.size
+            }
             resultList.add(ResultData(driver2Name!!, "", "%.3f".format(driver2PitStopsAverageTime)))
 
             // compare the difference
