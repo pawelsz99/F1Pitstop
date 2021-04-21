@@ -2,10 +2,8 @@ package com.pawelsznuradev.f1pitstop
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -51,15 +49,6 @@ class HomeFragment : Fragment() {
         populateSeasons()
     }
 
-    private fun enableAllSelectFields() {
-        if (binding.selectRace.editText?.text.toString() != "") {
-            populateRaces()
-            populateDrivers1()
-            populateDrivers2()
-            binding.buttonCompare.isEnabled = true
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,9 +56,6 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-
-//        populateSeasons()
-
 
         binding.buttonCompare.setOnClickListener {
             packDataUpInBundle()
@@ -81,6 +67,15 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+    }
+
+    private fun enableAllSelectFields() {
+        if (binding.selectRace.editText?.text.toString() != "") {
+            populateRaces()
+            populateDrivers1()
+            populateDrivers2()
+            binding.buttonCompare.isEnabled = true
+        }
     }
 
     private fun packDataUpInBundle() {
