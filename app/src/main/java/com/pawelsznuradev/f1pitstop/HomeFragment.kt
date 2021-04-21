@@ -151,6 +151,7 @@ class HomeFragment : Fragment() {
             binding.selectDriver1.editText?.text?.clear()
             binding.selectDriver2.editText?.text?.clear()
             binding.selectDriver2.isEnabled = false
+            binding.buttonCompare.isEnabled = false
         }
 
         round = races.getIdByName(binding.selectRace.editText?.text.toString())
@@ -178,6 +179,7 @@ class HomeFragment : Fragment() {
             binding.selectDriver1.isEnabled = false
             binding.selectDriver2.editText?.text?.clear()
             binding.selectDriver2.isEnabled = false
+            binding.buttonCompare.isEnabled = false
         }
 
         season = binding.selectSeason.editText?.text.toString()
