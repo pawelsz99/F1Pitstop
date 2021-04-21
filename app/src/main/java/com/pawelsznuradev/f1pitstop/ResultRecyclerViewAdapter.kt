@@ -1,8 +1,5 @@
 package com.pawelsznuradev.f1pitstop
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.res.Resources
 import android.graphics.Color
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
@@ -26,49 +23,61 @@ class ResultRecyclerViewAdapter(
         return ViewHolder(view)
     }
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item.pos1
-        holder.contentView.text = item.pos2
-        holder.contentView2.text = item.pos3
+        holder.contentView1.text = item.pos1
+        holder.contentView2.text = item.pos2
+        holder.contentView3.text = item.pos3
 
-        // driver name style
         if (item.pos2 == "" && item.pos3 == "") {
-//            Log.e("driver name style", "pos1 = ${holder.idView.text} pos2 = ${holder.contentView.text} pos3 = ${holder.contentView2.text}")
-//            Log.e("driver name style items", "pos1 = ${item.pos1} pos2 = ${item.pos2} pos3 = ${item.pos3}")
+            // driver name style
             holder.itemView.setBackgroundColor(Color.parseColor("#383840"))
-            holder.idView.setTextColor(Color.WHITE)
-        }
-
-        // total and difference style
-        if (item.pos1 == "Total" || item.pos1 == "Difference") {
+            holder.contentView1.setTextColor(Color.WHITE)
+        } else if (item.pos1 == "Total" || item.pos1 == "Difference") {
+            // total and difference style
             holder.itemView.setBackgroundColor(Color.parseColor("#383840"))
-            holder.idView.setTextColor(Color.WHITE)
-            holder.contentView2.setTextColor(Color.WHITE)
-        }
+            holder.contentView1.setTextColor(Color.WHITE)
+            holder.contentView3.setTextColor(Color.WHITE)
+        } else if (item.pos1 == "Stop") {
+            // Stop Lap Duration style
+            holder.itemView.setBackgroundColor(Color.WHITE)
+            holder.contentView1.setTextColor(Color.BLACK)
+            holder.contentView2.setTextColor(Color.BLACK)
+            holder.contentView3.setTextColor(Color.BLACK)
+        } else {
+            // stop lap duration style
+            try { // names string cannot be converted to Int
+                if (item.pos1.toInt() % 2 != 0) {
+                    holder.itemView.setBackgroundColor(Color.parseColor("#E8DDD5"))
+                    holder.contentView1.setTextColor(Color.BLACK)
+                    holder.contentView2.setTextColor(Color.BLACK)
+                    holder.contentView3.setTextColor(Color.BLACK)
+                } else {
+                    holder.itemView.setBackgroundColor(Color.WHITE)
+                    holder.contentView1.setTextColor(Color.BLACK)
+                    holder.contentView2.setTextColor(Color.BLACK)
+                    holder.contentView3.setTextColor(Color.BLACK)
+                }
 
-        // stop lap duration style
-        try { // names cannot be converted to Int
-            if (item.pos1.toInt() % 2 != 0) {
-                holder.itemView.setBackgroundColor(Color.parseColor("#E8DDD5"))
+            } catch (e: NumberFormatException) {
+                // set back to default
+                holder.itemView.setBackgroundColor(Color.WHITE)
+                holder.contentView1.setTextColor(Color.BLACK)
+                holder.contentView2.setTextColor(Color.BLACK)
+                holder.contentView3.setTextColor(Color.BLACK)
             }
-        } catch (e: NumberFormatException) {
-            // do nothing
         }
-
-
     }
 
     override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val idView: TextView = view.findViewById(R.id.item_number)
-        val contentView: TextView = view.findViewById(R.id.content)
-        val contentView2: TextView = view.findViewById(R.id.content2)
+        val contentView1: TextView = view.findViewById(R.id.item_number)
+        val contentView2: TextView = view.findViewById(R.id.content)
+        val contentView3: TextView = view.findViewById(R.id.content2)
 
         override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
+            return super.toString() + contentView1.text
         }
     }
 }

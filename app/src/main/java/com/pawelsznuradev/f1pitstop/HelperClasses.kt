@@ -39,6 +39,7 @@ data class DriverPitStops(
         parcel.createStringArrayList()
     )
 
+
     override fun describeContents(): Int {
         return 0
     }

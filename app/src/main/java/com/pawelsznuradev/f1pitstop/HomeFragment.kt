@@ -37,11 +37,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-
     override fun onResume() {
         super.onResume()
         enableAllSelectFields()
@@ -65,10 +60,6 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
     private fun enableAllSelectFields() {
         if (binding.selectRace.editText?.text.toString() != "") {
             populateRaces()
@@ -79,15 +70,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun packDataUpInBundle() {
-//        Log.e("pack data", "season = $season, raceName  = ${races.getNameById(round)} ")
         bundle.putString("season", season)
         bundle.putString("raceName", races.getNameById(round))
         bundle.putString("driver1Name", drivers.getNameById(driverId1))
         bundle.putString("driver2Name", drivers.getNameById(driverId2))
         bundle.putParcelable("driver1PitStop", driver1PitStops)
         bundle.putParcelable("driver2PitStop", driver2PitStops)
-
-
     }
 
     private fun populateDrivers2() {
@@ -110,10 +98,12 @@ class HomeFragment : Fragment() {
 
         val raceNames = ArrayList(drivers.nameList)
         // if the 2. driver is already selected then remove him from the list
-        if (this::driver2PitStops.isInitialized) {
-            val driver2Id = driver2PitStops.driverId.toString()
-            raceNames.remove(drivers.getNameById(driver2Id))
-        }
+
+//        if (this::driver2PitStops.isInitialized) {
+//            Log.e("isInitialized", " diver2PS = $driver2PitStops")
+//            val driver2Id = driver2PitStops.driverId.toString()
+//            raceNames.remove(drivers.getNameById(driver2Id))
+//        }
 
         val adapter = ArrayAdapter(requireContext(), R.layout.home_list_item, raceNames)
         (binding.selectDriver1.editText as? AutoCompleteTextView)?.setAdapter(adapter)
@@ -149,8 +139,10 @@ class HomeFragment : Fragment() {
         // clear the selection if there is any
         if (!binding.selectDriver1.editText?.text.isNullOrBlank()) {
             binding.selectDriver1.editText?.text?.clear()
+            driver1PitStops = emptyDriverPitStops()
             binding.selectDriver2.editText?.text?.clear()
             binding.selectDriver2.isEnabled = false
+            driver2PitStops = emptyDriverPitStops()
             binding.buttonCompare.isEnabled = false
         }
 
@@ -177,8 +169,10 @@ class HomeFragment : Fragment() {
             binding.selectRace.editText?.text?.clear()
             binding.selectDriver1.editText?.text?.clear()
             binding.selectDriver1.isEnabled = false
+            driver1PitStops = emptyDriverPitStops()
             binding.selectDriver2.editText?.text?.clear()
             binding.selectDriver2.isEnabled = false
+            driver2PitStops = emptyDriverPitStops()
             binding.buttonCompare.isEnabled = false
         }
 
@@ -198,13 +192,7 @@ class HomeFragment : Fragment() {
                         // if the driver has no pit stops then create an empty DriverPitStop object
                         driver1PitStops =
                             if (response.body()!!.MRDataPitStops.RaceTable2.Races2.isEmpty()) {
-                                DriverPitStops(
-                                    "",
-                                    ArrayList(),
-                                    ArrayList(),
-                                    ArrayList(),
-                                    ArrayList()
-                                )
+                                emptyDriverPitStops()
                             } else {
                                 response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getDriverPitStops()
                             }
@@ -215,13 +203,7 @@ class HomeFragment : Fragment() {
                         // if the driver has no pit stops then create an empty DriverPitStop object
                         driver2PitStops =
                             if (response.body()!!.MRDataPitStops.RaceTable2.Races2.isEmpty()) {
-                                DriverPitStops(
-                                    "",
-                                    ArrayList(),
-                                    ArrayList(),
-                                    ArrayList(),
-                                    ArrayList()
-                                )
+                                emptyDriverPitStops()
                             } else {
                                 response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getDriverPitStops()
                             }
@@ -236,6 +218,14 @@ class HomeFragment : Fragment() {
                 }
             })
     }
+
+    private fun emptyDriverPitStops() = DriverPitStops(
+        "",
+        ArrayList(),
+        ArrayList(),
+        ArrayList(),
+        ArrayList()
+    )
 
     private fun getDrivers(season: String, round: String) {
         ErgastApi.retrofitService.getDrivers(season, round)
