@@ -50,6 +50,10 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_resultFragment, bundle)
         }
 
+        binding.buttonAbout.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_aboutFragment)
+        }
+
         return binding.root
     }
 

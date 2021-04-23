@@ -5,5 +5,25 @@
     <string name="select_driver1">Driver No 1</string>
     <string name="select_driver2">Driver No 2</string>
     <string name="button_compare">Compare</string>
+    <string name="button_about">About</string>
     <string name="no_internet">Cannot reach server. Please check your internet connection.</string>
+    <string name="about">Pit Stops time is measured from season 2011 onwards. \nThe FIA releases only the total pit lane time. At the moment of developing this application, there was no data for the tire change. Therefore I refer to the pit lane time as a pit stop.
+Usually, the data will be available 2 - 6 hours after the race. \nThe time difference is calculated according to this formula:
+difference = (driver1 pit stop time) - (driver2 pit stop time) \nFrom 2015 cars proceed to the pit lane instead of staying on the grid in the event of a red flag, this will also be shown as a pit stop. \nMany thanks to Ergast API for providing the data\n\n
+Developed by Pawel Sznura</string>
+    <string name="about_seasons_title">Seasons</string>
+    <string name="about_seasons">Pit Stops time is measured from season 2011 onwards.</string>
+    <string name="about_pit_lane_title">Pit Lane / Pit Stop</string>
+    <string name="about_pit_lane">The FIA releases only the total pit lane time. At the moment of developing this application, there was no data for the tire change. Therefore I refer to the pit lane time as a pit stop.</string>
+    <string name="about_updates_title">Updates</string>
+    <string name="about_updates">Usually, the data will be available 2 – 6 hours after the race.</string>
+    <string name="about_difference_title">Difference</string>
+    <string name="about_difference">The time difference is calculated according to this formula: difference = (driver1 pit stop time) - (driver2 pit stop time)</string>
+    <string name="about_red_flag_title">Red Flag</string>
+    <string name="about_red_flag">From 2015 cars proceed to the pit lane instead of staying on the grid in the event of a red flag, this will also be shown as a pit stop.</string>
+    <string name="about_data_title">Data</string>
+    <string name="about_data">Many thanks to Ergast API for providing the data</string>
+    <string name="about_author">Developed by Pawel Sznura 2021</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
