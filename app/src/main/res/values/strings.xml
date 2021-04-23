@@ -7,6 +7,19 @@
     <string name="button_compare">Compare</string>
     <string name="button_about">About</string>
     <string name="no_internet">Cannot reach server. Please check your internet connection.</string>
+    <string name="about">Pit Stops time is measured from season 2011 onwards. \nThe FIA releases only the total pit lane time. At the moment of developing this application, there was no data for the tire change. Therefore I refer to the pit lane time as a pit stop.
+Usually, the data will be available 2 - 6 hours after the race. \nThe time difference is calculated according to this formula:
+difference = (driver1 pit stop time) - (driver2 pit stop time) \nFrom 2015 cars proceed to the pit lane instead of staying on the grid in the event of a red flag, this will also be shown as a pit stop. \nMany thanks to Ergast API for providing the data\n\n
+Developed by Pawel Sznura</string>
+
+    <string name="about1">Pit Stops time is measured from season 2011 onwards.</string>
+    <string name="about2">The FIA releases only the total pit lane time. At the moment of developing this application, there was no data for the tire change. Therefore I refer to the pit lane time as a pit stop.</string>
+    <string name="about3">Usually, the data will be available 2 – 6 hours after the race.</string>
+    <string name="about4">The time difference is calculated according to this formula: difference = (driver1 pit stop time) - (driver2 pit stop time)</string>
+    <string name="about5">From 2015 cars proceed to the pit lane instead of staying on the grid in the event of a red flag, this will also be shown as a pit stop.</string>
+    <string name="about6">Many thanks to Ergast API for providing the data</string>
+    <string name="about7">Developed by Pawel Sznura</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
