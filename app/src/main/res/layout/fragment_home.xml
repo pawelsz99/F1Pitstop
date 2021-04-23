@@ -17,7 +17,6 @@
             android:enabled="true"
             android:focusable="false"
             android:hint="@string/select_season"
-            app:boxBackgroundColor="@color/white"
             app:layout_constraintTop_toTopOf="parent">
 
             <AutoCompleteTextView

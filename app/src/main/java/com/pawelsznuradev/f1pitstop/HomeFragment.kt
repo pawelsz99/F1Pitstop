@@ -37,13 +37,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
-    override fun onResume() {
-        super.onResume()
-        enableAllSelectFields()
-        activity?.title = resources.getString(R.string.app_name)
-        populateSeasons()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,6 +51,13 @@ class HomeFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        enableAllSelectFields()
+        activity?.title = resources.getString(R.string.app_name)
+        populateSeasons()
     }
 
     private fun enableAllSelectFields() {
@@ -97,13 +97,6 @@ class HomeFragment : Fragment() {
         binding.selectDriver1.isEnabled = true
 
         val raceNames = ArrayList(drivers.nameList)
-        // if the 2. driver is already selected then remove him from the list
-
-//        if (this::driver2PitStops.isInitialized) {
-//            Log.e("isInitialized", " diver2PS = $driver2PitStops")
-//            val driver2Id = driver2PitStops.driverId.toString()
-//            raceNames.remove(drivers.getNameById(driver2Id))
-//        }
 
         val adapter = ArrayAdapter(requireContext(), R.layout.home_list_item, raceNames)
         (binding.selectDriver1.editText as? AutoCompleteTextView)?.setAdapter(adapter)
@@ -208,7 +201,6 @@ class HomeFragment : Fragment() {
                                 response.body()!!.MRDataPitStops.RaceTable2.Races2[0].getDriverPitStops()
                             }
 
-//                        packDataUpInBundle()
                     }
                 }
 
@@ -218,14 +210,6 @@ class HomeFragment : Fragment() {
                 }
             })
     }
-
-    private fun emptyDriverPitStops() = DriverPitStops(
-        "",
-        ArrayList(),
-        ArrayList(),
-        ArrayList(),
-        ArrayList()
-    )
 
     private fun getDrivers(season: String, round: String) {
         ErgastApi.retrofitService.getDrivers(season, round)
@@ -260,4 +244,12 @@ class HomeFragment : Fragment() {
             }
         })
     }
+
+    private fun emptyDriverPitStops() = DriverPitStops(
+        "",
+        ArrayList(),
+        ArrayList(),
+        ArrayList(),
+        ArrayList()
+    )
 }
