@@ -10,54 +10,118 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/text_margin">
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="-322dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="@dimen/text_margin">
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/seasons_title"
+                style="@style/aboutTextTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/about1" />
+                android:text="@string/about_seasons_title" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/seasons"
+                style="@style/aboutText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/about2" />
+                android:text="@string/about_seasons" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/pit_lane_title"
+                style="@style/aboutTextTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/about3" />
+                android:text="@string/about_pit_lane_title" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/pit_lane"
+                style="@style/aboutText"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/about4" />
+                android:text="@string/about_pit_lane" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/updates_title"
+                style="@style/aboutTextTitle"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/about5" />
+                android:text="@string/about_updates_title" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/updates"
+                style="@style/aboutText"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/about6" />
+                android:text="@string/about_updates" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/difference_title"
+                style="@style/aboutTextTitle"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/about7" />
+                android:text="@string/about_difference_title" />
+
+            <TextView
+                android:id="@+id/difference"
+                style="@style/aboutText"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_difference" />
+
+            <TextView
+                android:id="@+id/red_flag_title"
+                style="@style/aboutTextTitle"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_red_flag_title" />
+
+            <TextView
+                android:id="@+id/red_flag"
+                style="@style/aboutText"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_red_flag" />
+
+            <TextView
+                android:id="@+id/data_title"
+                style="@style/aboutTextTitle"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_data_title" />
+
+            <TextView
+                android:id="@+id/data"
+                style="@style/aboutText"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_data" />
+
+            <TextView
+                android:id="@+id/author"
+                style="@style/aboutText"
+                android:textSize="@dimen/text_size_big"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/text_margin_big"
+                android:text="@string/about_author"
+                android:textAlignment="center" />
+
 
         </LinearLayout>
     </ScrollView>

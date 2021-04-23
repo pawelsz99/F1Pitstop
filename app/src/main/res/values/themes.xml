@@ -24,10 +24,24 @@
     <style name="FontSizeSmall">
         <item name="android:textSize">@dimen/text_size_small</item>
     </style>
+
     <style name="FontSizeMedium">
         <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
+
     <style name="FontSizeLarge">
         <item name="android:textSize">@dimen/text_size_big</item>
+    </style>
+
+    <style name="aboutTextTitle">
+<!--        <item name="android:paddingBottom">@dimen/text_margin_small</item>-->
+        <item name="android:textSize">@dimen/text_size_big</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+    <style name="aboutText">
+        <item name="android:paddingBottom">@dimen/text_margin</item>
+        <item name="android:paddingLeft">@dimen/text_margin</item>
+        <item name="android:paddingRight">@dimen/text_margin</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
 </resources>
