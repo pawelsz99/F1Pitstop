@@ -13,7 +13,9 @@ import android.view.ViewGroup
 
 
 /**
- * A fragment representing a list of Items.
+ * Result fragment
+ *
+ * @constructor Create empty Result fragment
  */
 class ResultFragment : Fragment() {
 
@@ -24,6 +26,10 @@ class ResultFragment : Fragment() {
     lateinit var driver1PitStops: DriverPitStops
     lateinit var driver2PitStops: DriverPitStops
 
+    /**
+     * Result list
+     * holds the data to be displayed in a understandable format for the [ResultRecyclerViewAdapter]
+     */
     private val resultList = mutableListOf<ResultData>()
 
     private var columnCount = 3
@@ -66,6 +72,10 @@ class ResultFragment : Fragment() {
         return view
     }
 
+    /**
+     * Populate result list
+     * putting all the data to be displayed into [resultList]
+     */
     private fun populateResultList() {
         // name driver 1
         resultList.add(ResultData(driver1Name!!))
@@ -108,6 +118,7 @@ class ResultFragment : Fragment() {
                             PitStopTime(driver1PitStops.duration!![i]).getTotalTime() - PitStopTime(
                                 driver2PitStops.duration!![i]
                             ).getTotalTime()
+                        // "%.3f" used to get only 3 decimal places
                         )
                     )
                 )
@@ -134,6 +145,8 @@ class ResultFragment : Fragment() {
                     driver1PitStopsSumTime / driver1PitStops.duration!!.size
             }
             resultList.add(ResultData(driver1Name!!, "", "%.3f".format(driver1PitStopsAverageTime)))
+            // "%.3f" used to get only 3 decimal places
+
 
             var driver2PitStopsSumTime = 0.0
             for (num in driver2PitStops.duration!!) {
@@ -147,6 +160,8 @@ class ResultFragment : Fragment() {
                     driver2PitStopsSumTime / driver2PitStops.duration!!.size
             }
             resultList.add(ResultData(driver2Name!!, "", "%.3f".format(driver2PitStopsAverageTime)))
+            // "%.3f" used to get only 3 decimal places
+
 
             // compare the difference
             resultList.add(
@@ -164,8 +179,6 @@ class ResultFragment : Fragment() {
 
 
     companion object {
-
-        // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
         private const val seasonKey = "season"
         private const val raceNameKey = "raceName"
@@ -174,13 +187,5 @@ class ResultFragment : Fragment() {
         private const val driver1PitStopsKey = "driver1PitStop"
         private const val driver2PitStopsKey = "driver2PitStop"
 
-//        // TODO: Customize parameter initialization
-//        @JvmStatic
-//        fun newInstance(columnCount: Int) =
-//            ResultFragment().apply {
-//                arguments = Bundle().apply {
-//                    putInt(ARG_COLUMN_COUNT, columnCount)
-//                }
-//            }
     }
 }

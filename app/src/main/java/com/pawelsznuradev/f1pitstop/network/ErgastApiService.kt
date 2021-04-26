@@ -17,8 +17,7 @@ private val gson = GsonBuilder()
     .create()
 
 
-private
-val retrofit = Retrofit.Builder()
+private val retrofit = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create(gson))
     .baseUrl(BASE_URL)
     .build()
@@ -28,16 +27,42 @@ object ErgastApi {
     val retrofitService: ErgastApiService by lazy { retrofit.create(ErgastApiService::class.java) }
 }
 
+/**
+ * Ergast api service
+ *
+ * @constructor Create empty Ergast api service
+ */
 interface ErgastApiService {
+    /**
+     * Get races
+     *
+     * @param season
+     * @return [ResponseRaces]
+     */
     @GET("{season}/races.json")
     fun getRaces(@Path("season") season: String): Call<ResponseRaces>
 
+    /**
+     * Get drivers
+     *
+     * @param season
+     * @param round
+     * @return [ResponseDrivers]
+     */
     @GET("{season}/{round}/drivers.json")
     fun getDrivers(
         @Path("season") season: String,
         @Path("round") round: String
     ): Call<ResponseDrivers>
 
+    /**
+     * Get pit stops
+     *
+     * @param season
+     * @param round
+     * @param driverId
+     * @return [ResponsePitStops]
+     */
     @GET("{season}/{round}/drivers/{driverId}/pitstops.json")
     fun getPitStops(
         @Path("season") season: String,

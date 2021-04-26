@@ -11,7 +11,10 @@ import java.lang.NumberFormatException
 
 
 /**
- * [RecyclerView.Adapter] that can display a [ResultData].
+ * Result recycler view adapter
+ *
+ * @property values
+ * @constructor Create empty Result recycler view adapter
  */
 class ResultRecyclerViewAdapter(
     private val values: List<ResultData>
@@ -29,21 +32,26 @@ class ResultRecyclerViewAdapter(
         holder.contentView2.text = item.pos2
         holder.contentView3.text = item.pos3
 
+
+        // changing the background or text colour
         if (item.pos2 == "" && item.pos3 == "") {
             // driver name style
             holder.itemView.setBackgroundColor(Color.parseColor("#383840"))
             holder.contentView1.setTextColor(Color.WHITE)
+
         } else if (item.pos1 == "Total" || item.pos1 == "Difference") {
             // total and difference style
             holder.itemView.setBackgroundColor(Color.parseColor("#383840"))
             holder.contentView1.setTextColor(Color.WHITE)
             holder.contentView3.setTextColor(Color.WHITE)
+
         } else if (item.pos1 == "Stop") {
             // Stop Lap Duration style
             holder.itemView.setBackgroundColor(Color.WHITE)
             holder.contentView1.setTextColor(Color.BLACK)
             holder.contentView2.setTextColor(Color.BLACK)
             holder.contentView3.setTextColor(Color.BLACK)
+
         } else {
             // stop lap duration style
             try { // names string cannot be converted to Int
@@ -71,6 +79,13 @@ class ResultRecyclerViewAdapter(
 
     override fun getItemCount(): Int = values.size
 
+    /**
+     * View holder
+     *
+     * @constructor
+     *
+     * @param view
+     */
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val contentView1: TextView = view.findViewById(R.id.item_number)
         val contentView2: TextView = view.findViewById(R.id.content)

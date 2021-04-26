@@ -5,10 +5,27 @@ import com.pawelsznuradev.f1pitstop.DriverPitStops
 import com.pawelsznuradev.f1pitstop.IdNameCollection
 import java.util.ArrayList
 
+/**
+ * Response races
+ *
+ * @property MRData
+ * @constructor Create empty Response races
+ */
 data class ResponseRaces(
     val MRData: MRDataRaces
 )
 
+/**
+ * M r data races
+ *
+ * @property xmlns
+ * @property series
+ * @property limit
+ * @property offset
+ * @property total
+ * @property RaceTable
+ * @constructor Create empty M r data races
+ */
 data class MRDataRaces(
     val xmlns: String,
     val series: String,
@@ -23,10 +40,22 @@ data class MRDataRaces(
 }
 
 
+/**
+ * Race table
+ *
+ * @property season
+ * @property Races
+ * @constructor Create empty Race table
+ */
 data class RaceTable(
     val season: String,
     val Races: List<Races>
 ) {
+    /**
+     * Get race id name collection
+     *
+     * @return all races in a form of IdNameCollection
+     */
     fun getRaceIdNameCollection(): IdNameCollection {
         val racesNameList = mutableListOf<String>()
         val racesIdList = mutableListOf<String>()
@@ -38,6 +67,18 @@ data class RaceTable(
     }
 }
 
+/**
+ * Races
+ *
+ * @property season
+ * @property round
+ * @property url
+ * @property raceName
+ * @property Circuit
+ * @property date
+ * @property time
+ * @constructor Create empty Races
+ */
 data class Races(
     val season: String,
     val round: String,
@@ -48,6 +89,15 @@ data class Races(
     val time: String
 )
 
+/**
+ * Circuit
+ *
+ * @property circuitId
+ * @property url
+ * @property name
+ * @property Location
+ * @constructor Create empty Circuit
+ */
 data class Circuit(
     val circuitId: String,
     val url: String?,
@@ -56,6 +106,15 @@ data class Circuit(
 
 )
 
+/**
+ * Location
+ *
+ * @property lat
+ * @property lon
+ * @property locality
+ * @property country
+ * @constructor Create empty Location
+ */
 data class Location(
     val lat: Float?,
     val lon: Float?,
@@ -63,11 +122,27 @@ data class Location(
     val country: String?
 )
 
+/**
+ * Response drivers
+ *
+ * @property MRDataDrivers
+ * @constructor Create empty Response drivers
+ */
 data class ResponseDrivers(
     @SerializedName("MRData")
     val MRDataDrivers: MRDataDrivers
 )
 
+/**
+ * M r data drivers
+ *
+ * @property series
+ * @property limit
+ * @property offset
+ * @property total
+ * @property DriverTable
+ * @constructor Create empty M r data drivers
+ */
 data class MRDataDrivers(
     val series: String,
     val limit: String,
@@ -76,11 +151,24 @@ data class MRDataDrivers(
     val DriverTable: DriverTable
 )
 
+/**
+ * Driver table
+ *
+ * @property season
+ * @property round
+ * @property Drivers
+ * @constructor Create empty Driver table
+ */
 data class DriverTable(
     val season: String,
     val round: String,
     val Drivers: List<Drivers>
 ) {
+    /**
+     * Get driver id name collection
+     *
+     * @return all drivers in a form of IdNameCollection
+     */
     fun getDriverIdNameCollection(): IdNameCollection {
         val driversNameList = mutableListOf<String>()
         val driversIdList = mutableListOf<String>()
@@ -92,6 +180,19 @@ data class DriverTable(
     }
 }
 
+/**
+ * Drivers
+ *
+ * @property driverId
+ * @property permanentNumber
+ * @property code
+ * @property url
+ * @property givenName
+ * @property familyName
+ * @property dateOfBirth
+ * @property nationality
+ * @constructor Create empty Drivers
+ */
 data class Drivers(
     val driverId: String,
     val permanentNumber: String,
@@ -103,11 +204,27 @@ data class Drivers(
     val nationality: String
 )
 
+/**
+ * Response pit stops
+ *
+ * @property MRDataPitStops
+ * @constructor Create empty Response pit stops
+ */
 data class ResponsePitStops(
     @SerializedName("MRData")
     val MRDataPitStops: MRDataPitStops
 )
 
+/**
+ * M r data pit stops
+ *
+ * @property series
+ * @property limit
+ * @property offset
+ * @property total
+ * @property RaceTable2
+ * @constructor Create empty M r data pit stops
+ */
 data class MRDataPitStops(
     val series: String,
     val limit: String,
@@ -117,6 +234,13 @@ data class MRDataPitStops(
     val RaceTable2: RaceTable2
 )
 
+/**
+ * Race table2
+ *
+ * @property season
+ * @property Races2
+ * @constructor Create empty Race table2
+ */
 data class RaceTable2(
     val season: String,
     @SerializedName("Races")
@@ -125,6 +249,19 @@ data class RaceTable2(
 )
 
 
+/**
+ * Races2
+ *
+ * @property season
+ * @property round
+ * @property url
+ * @property raceName
+ * @property circuit
+ * @property date
+ * @property time
+ * @property PitStops
+ * @constructor Create empty Races2
+ */
 data class Races2(
     val season: String,
     val round: String,
@@ -135,6 +272,11 @@ data class Races2(
     val time: String,
     val PitStops: List<PitStops>
 ) {
+    /**
+     * Get driver pit stops
+     *
+     * @return all pit stops for the driver
+     */
     fun getDriverPitStops(): DriverPitStops {
         val driverId = PitStops[0].driverId
         val stop = mutableListOf<String>()
@@ -157,6 +299,16 @@ data class Races2(
     }
 }
 
+/**
+ * Pit stops
+ *
+ * @property driverId
+ * @property lap
+ * @property stop
+ * @property time
+ * @property duration
+ * @constructor Create empty Pit stops
+ */
 data class PitStops(
     val driverId: String,
     val lap: String,

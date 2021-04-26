@@ -22,10 +22,16 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
+/**
+ * Home fragment
+ *
+ * @constructor Create empty Home fragment
+ */
 class HomeFragment : Fragment() {
 
     lateinit var races: IdNameCollection
     lateinit var drivers: IdNameCollection
+
     lateinit var driver1PitStops: DriverPitStops
     lateinit var driver2PitStops: DriverPitStops
 
@@ -64,6 +70,11 @@ class HomeFragment : Fragment() {
         populateSeasons()
     }
 
+    /**
+     * Enable all select fields
+     * under a certain criteria enables all clickable fields
+     *
+     */
     private fun enableAllSelectFields() {
         if (binding.selectRace.editText?.text.toString() != "") {
             populateRaces()
@@ -73,6 +84,11 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /**
+     * Pack data up in bundle
+     * all data needed in the next fragment is packed here into the bundle
+     *
+     */
     private fun packDataUpInBundle() {
         bundle.putString("season", season)
         bundle.putString("raceName", races.getNameById(round))
@@ -82,26 +98,37 @@ class HomeFragment : Fragment() {
         bundle.putParcelable("driver2PitStop", driver2PitStops)
     }
 
+    /**
+     * Populate drivers2
+     * putting names of drivers into Driver No 2 list
+     */
     private fun populateDrivers2() {
+        // making sure this field is clickable
         binding.selectDriver2.isEnabled = true
 
-
-        // removing the first driver from list to be displayed
+        // removing the already selected driver from list to be displayed
         val driver1Id = driver1PitStops.driverId.toString()
         val raceNames = ArrayList(drivers.nameList)
         raceNames.remove(drivers.getNameById(driver1Id))
         val adapter = ArrayAdapter(requireContext(), R.layout.home_list_item, raceNames)
 
+        // setting the on click listener for the list
         (binding.selectDriver2.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         binding.selectDriver2List.onItemClickListener =
             AdapterView.OnItemClickListener { adapterView, view, i, l -> onDriver2Selected() }
     }
 
+
+    /**
+     * Populate drivers1
+     * putting names of drivers into Driver No 1 list
+     */
     private fun populateDrivers1() {
+        // making sure this field is clickable
         binding.selectDriver1.isEnabled = true
 
         val raceNames = ArrayList(drivers.nameList)
-
+        // setting the on click listener for the list
         val adapter = ArrayAdapter(requireContext(), R.layout.home_list_item, raceNames)
         (binding.selectDriver1.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         binding.selectDriver1List.onItemClickListener =
@@ -109,12 +136,20 @@ class HomeFragment : Fragment() {
 
     }
 
+    /**
+     * On driver1selected
+     *
+     */
     private fun onDriver1Selected() {
         driverId1 = drivers.getIdByName(binding.selectDriver1.editText?.text.toString())
         getPitStops(season, round, driverId1)
 
     }
 
+    /**
+     * On driver2selected
+     *
+     */
     private fun onDriver2Selected() {
         driverId2 = drivers.getIdByName(binding.selectDriver2.editText?.text.toString())
         getPitStops(season, round, driverId2)
@@ -122,16 +157,26 @@ class HomeFragment : Fragment() {
 
     }
 
+    /**
+     * Populate races
+     * putting names of races into Race list
+     */
     private fun populateRaces() {
+        // making sure this field is clickable
         binding.selectRace.isEnabled = true
 
         val raceNames = ArrayList(races.nameList)
         val adapter = ArrayAdapter(requireContext(), R.layout.home_list_item, raceNames)
+        // setting the on click listener for the list
         (binding.selectRace.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         binding.selectRaceList.onItemClickListener =
             AdapterView.OnItemClickListener { adapterView, view, i, l -> onRaceSelected() }
     }
 
+    /**
+     * On race selected
+     *
+     */
     private fun onRaceSelected() {
         // clear the selection if there is any
         if (!binding.selectDriver1.editText?.text.isNullOrBlank()) {
@@ -147,12 +192,18 @@ class HomeFragment : Fragment() {
         getDrivers(season, round)
     }
 
+    /**
+     * Populate seasons
+     * putting list of seasons into Season field
+     */
     private fun populateSeasons() {
+        // pit stops available from 2011 season, no need for a API call
         val listSeasons = mutableListOf<String>()
         for (i in 2011..Calendar.getInstance().get(Calendar.YEAR)) {
             listSeasons.add("$i")
         }
         val adapter = ArrayAdapter(requireContext(), R.layout.home_list_item, listSeasons)
+        // setting the on click listener for the list
         (binding.selectSeason.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         binding.selectSeasonList.onItemClickListener =
             AdapterView.OnItemClickListener { adapterView, view, i, l ->
@@ -160,6 +211,10 @@ class HomeFragment : Fragment() {
             }
     }
 
+    /**
+     * On season selected
+     *
+     */
     private fun onSeasonSelected() {
         // clear the selection if there is any
         if (!binding.selectRace.editText?.text.isNullOrBlank()) {
@@ -177,7 +232,17 @@ class HomeFragment : Fragment() {
         getRaces(season)
     }
 
-
+    /**
+     * Get pit stops
+     * creates an API call for a list of pit stops for a driver
+     * if driver has no pit stops it calls [emptyDriverPitStops]
+     * one function for 2 drivers, it detects if it is driver no1 or no2
+     * and updates [driver1PitStops] or [driver2PitStops]
+     *
+     * @param season
+     * @param round
+     * @param driverId
+     */
     private fun getPitStops(season: String, round: String, driverId: String) {
         ErgastApi.retrofitService.getPitStops(season, round, driverId)
             .enqueue(object : Callback<ResponsePitStops> {
@@ -210,11 +275,18 @@ class HomeFragment : Fragment() {
 
                 override fun onFailure(call: Call<ResponsePitStops>, t: Throwable) {
                     Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show()
-                    t.message?.let { Log.e("pitStopFAILURE", it) }
                 }
             })
     }
 
+    /**
+     * Get drivers
+     * creates an API call for a list of drivers
+     * and updates the [drivers] variable
+     *
+     * @param season
+     * @param round
+     */
     private fun getDrivers(season: String, round: String) {
         ErgastApi.retrofitService.getDrivers(season, round)
             .enqueue(object : Callback<ResponseDrivers> {
@@ -230,11 +302,17 @@ class HomeFragment : Fragment() {
 
                 override fun onFailure(call: Call<ResponseDrivers>, t: Throwable) {
                     Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show()
-                    t.message?.let { Log.e("driversFAILURE", it) }
                 }
             })
     }
 
+    /**
+     * Get races
+     * creates an API call for a list of races
+     * and updates the [races] variable
+     *
+     * @param season
+     */
     private fun getRaces(season: String) {
         ErgastApi.retrofitService.getRaces(season).enqueue(object : Callback<ResponseRaces> {
             override fun onResponse(call: Call<ResponseRaces>, response: Response<ResponseRaces>) {
@@ -244,11 +322,15 @@ class HomeFragment : Fragment() {
 
             override fun onFailure(call: Call<ResponseRaces>, t: Throwable) {
                 Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show()
-                t.message?.let { Log.e("racesFAILURE", it) }
             }
         })
     }
 
+    /**
+     * Empty driver pit stops
+     *
+     * return empty [DriverPitStops] object
+     */
     private fun emptyDriverPitStops() = DriverPitStops(
         "",
         ArrayList(),
