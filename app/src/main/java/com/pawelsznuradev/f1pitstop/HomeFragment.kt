@@ -28,11 +28,11 @@ import kotlin.collections.ArrayList
  */
 class HomeFragment : Fragment() {
 
-    lateinit var races: IdNameCollection
-    lateinit var drivers: IdNameCollection
+    private lateinit var races: IdNameCollection
+    private lateinit var drivers: IdNameCollection
 
-    lateinit var driver1PitStops: DriverPitStops
-    lateinit var driver2PitStops: DriverPitStops
+    private var driver1PitStops = emptyDriverPitStops()
+    private var driver2PitStops = emptyDriverPitStops()
 
     private lateinit var season: String
     private lateinit var round: String
