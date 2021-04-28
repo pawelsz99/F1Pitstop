@@ -8,6 +8,8 @@ import java.util.ArrayList
  * Id name collection
  * allows to get the name by id and the other way around
  *
+ * (in data classes getters and setters are automatically created)
+ *
  * @property idList
  * @property nameList
  * @constructor Create empty Id name collection
@@ -109,19 +111,22 @@ data class ResultData(val pos1: String, val pos2: String, val pos3: String) {
 }
 
 /**
- * Pit stop time
+ * Pit stop time (minutes:seconds.milliseconds)
  * allows to save pit stops longer than 60 seconds
  *
  * @property timeString
  * @constructor Create empty Pit stop time
  */
 data class PitStopTime(val timeString: String) {
-    var minutes: Int = timeString.substringBefore(":", "0").toInt()
-    var seconds: Float = timeString.substringAfter(":", timeString).toFloat()
+    private var minutes: Int = timeString.substringBefore(":", "0").toInt()
+    private var seconds: Float = try {
+        timeString.substringAfter(":", timeString).toFloat()
+    } catch (e: NumberFormatException) { // when the input cannot be converted to a float number
+        0.0F
+    }
 
     /**
-     * Get total time
-     * converts minutes to seconds
+     * Get total time in seconds
      *
      * @return total time in seconds
      */
