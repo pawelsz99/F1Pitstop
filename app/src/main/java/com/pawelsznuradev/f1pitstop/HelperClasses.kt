@@ -7,6 +7,7 @@ import java.util.ArrayList
 /**
  * Id name collection
  * allows to get the name by id and the other way around
+ * basically a dictionary where you can get a key by value
  *
  * (in data classes getters and setters are automatically created)
  *
