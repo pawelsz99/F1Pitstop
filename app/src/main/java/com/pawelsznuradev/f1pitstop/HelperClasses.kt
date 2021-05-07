@@ -5,6 +5,10 @@ import android.os.Parcelable
 import java.util.ArrayList
 
 /**
+ * Created by Pawel Sznura on 10/04/2021.
+ */
+
+/**
  * Id name collection
  * allows to get the name by id and the other way around
  * basically a dictionary where you can get a key by value

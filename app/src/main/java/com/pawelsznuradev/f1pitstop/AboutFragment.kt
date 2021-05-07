@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
+/**
+ * Created by Pawel Sznura on 23/04/2021.
+ */
 
 /**
  * About fragment

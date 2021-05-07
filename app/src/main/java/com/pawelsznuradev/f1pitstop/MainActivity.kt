@@ -9,6 +9,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.pawelsznuradev.f1pitstop.databinding.ActivityMainBinding
 
 /**
+ * Created by Pawel Sznura on 24/02/2021.
+ */
+
+/**
  * Main Activity and entry point for the app.
  */
 class MainActivity : AppCompatActivity() {

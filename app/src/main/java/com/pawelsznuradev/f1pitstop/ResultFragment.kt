@@ -11,6 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
+/**
+ * Created by Pawel Sznura on 07/04/2021.
+ */
 
 /**
  * Result fragment

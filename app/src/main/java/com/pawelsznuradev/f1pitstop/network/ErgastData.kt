@@ -6,6 +6,10 @@ import com.pawelsznuradev.f1pitstop.IdNameCollection
 import java.util.ArrayList
 
 /**
+ * Created by Pawel Sznura on 30/03/2021.
+ */
+
+/**
  * Response races
  *
  * @property MRData

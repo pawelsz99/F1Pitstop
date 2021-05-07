@@ -9,6 +9,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 
+/**
+ * Created by Pawel Sznura on 30/03/2021.
+ */
+
 private const val BASE_URL = "http://ergast.com/api/f1/"
 
 

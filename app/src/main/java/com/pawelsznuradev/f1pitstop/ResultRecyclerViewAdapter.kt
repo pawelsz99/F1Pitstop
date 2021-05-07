@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import java.lang.NumberFormatException
 
+/**
+ * Created by Pawel Sznura on 14/04/2021.
+ */
 
 /**
  * Result recycler view adapter

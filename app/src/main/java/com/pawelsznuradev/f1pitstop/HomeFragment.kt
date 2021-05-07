@@ -20,6 +20,9 @@ import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * Created by Pawel Sznura on 07/04/2021.
+ */
 
 /**
  * Home fragment
